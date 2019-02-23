@@ -28,6 +28,9 @@ class LoginViewController: UIViewController {
     
     @IBAction private func loginButtonDidReceiveTouchUpInside(_ sender: Any) {
         
+        
+        // ANDRE TESTE
+        
         /* commenting everything until it gets fixed...
  
         FunctionsHelper.checkForEmptyText(usernameTextField, emptyUsernameLabel)
