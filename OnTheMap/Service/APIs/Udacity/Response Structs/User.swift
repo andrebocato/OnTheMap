@@ -10,13 +10,13 @@ import Foundation
 
 struct User: Codable {
     
-    var firstName: String
-    var lastName: String
-    var key: String
+    let lastName: String
+    let firstName: String
+    let key: String
     
     enum CodingKeys: String, CodingKey {
-        case firstName = "first_name"
         case lastName = "last_name"
+        case firstName = "first_name"
         case key
     }
     

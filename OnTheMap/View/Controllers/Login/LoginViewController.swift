@@ -27,11 +27,6 @@ class LoginViewController: UIViewController {
     // MARK: - IBActions
     
     @IBAction private func loginButtonDidReceiveTouchUpInside(_ sender: Any) {
-        
-        
-        // ANDRE TESTE
-        
-        /* commenting everything until it gets fixed...
  
         FunctionsHelper.checkForEmptyText(usernameTextField, emptyUsernameLabel)
         FunctionsHelper.checkForEmptyText(passwordTextField, emptyPasswordLabel)
@@ -53,16 +48,12 @@ class LoginViewController: UIViewController {
                     print("userId = " + userId)
                     
                     // use 'userId' to GET from response
-                    UdacityClient.getUserIdRequest(with: userId, success: { (getUserIdResponse) in
+                    UdacityClient.getUserRequest(with: userId, success: { (user) in
                         // request is failing, 'success' scope is not being executed
-                        guard userId == getUserIdResponse?.user.key else {
-                            print("userId != getUserIdResponse?.user.key")
-                            return
-                        }
                         
-                        DispatchQueue.main.async { */
+                        DispatchQueue.main.async {
                             self.performSegue(withIdentifier: "CompleteLoginSegue", sender: self)
-                        /*}
+                        }
                     }, failure: { (optionalError) in
                         if let error = optionalError {
                             self.displayError(error, description: "Failed to GET userId.")
@@ -76,7 +67,7 @@ class LoginViewController: UIViewController {
                 }
             })
             // end of POST session request
-        } */
+        }
     }
     
     @IBAction private func signUpButtonDidReceiveTouchUpInside(_ sender: Any) {
@@ -88,8 +79,15 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        activityIndicatorView.stopAnimating()
+        activityIndicatorView.isHidden = true
+        
         usernameTextField.delegate = self
         passwordTextField.delegate = self
+        
+        usernameTextField.text = "debocato@gmail.com"
+        passwordTextField.text = "andre0102"
+        
         FunctionsHelper.configureButton(loginButton)
     }
     
