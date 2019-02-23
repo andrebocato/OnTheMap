@@ -8,12 +8,32 @@
 
 /* Begin PBXBuildFile section */
 		1413EDAA22144DDB007D27BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1413EDA922144DDB007D27BB /* AppDelegate.swift */; };
-		1413EDAC22144DDB007D27BB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1413EDAB22144DDB007D27BB /* ViewController.swift */; };
+		1413EDAC22144DDB007D27BB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1413EDAB22144DDB007D27BB /* LoginViewController.swift */; };
 		1413EDAF22144DDB007D27BB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1413EDAD22144DDB007D27BB /* Main.storyboard */; };
 		1413EDB122144DDC007D27BB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1413EDB022144DDC007D27BB /* Assets.xcassets */; };
 		1413EDB422144DDC007D27BB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1413EDB222144DDC007D27BB /* LaunchScreen.storyboard */; };
 		1413EDBF22144DDC007D27BB /* OnTheMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1413EDBE22144DDC007D27BB /* OnTheMapTests.swift */; };
 		1413EDCA22144DDC007D27BB /* OnTheMapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1413EDC922144DDC007D27BB /* OnTheMapUITests.swift */; };
+		1413EDDB22144EA7007D27BB /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1413EDDA22144EA7007D27BB /* Default-568h@2x.png */; };
+		1413EDDD2214516C007D27BB /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1413EDDC2214516C007D27BB /* MapViewController.swift */; };
+		1413EDDF22145459007D27BB /* StudentsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1413EDDE22145459007D27BB /* StudentsTableViewController.swift */; };
+		1413EDE122145479007D27BB /* StudentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1413EDE022145479007D27BB /* StudentCell.swift */; };
+		1413EDE322145883007D27BB /* InformationPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1413EDE222145883007D27BB /* InformationPostingViewController.swift */; };
+		1413EDE5221459A7007D27BB /* ConfirmLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1413EDE4221459A7007D27BB /* ConfirmLocationViewController.swift */; };
+		145A57F9221B1BE8006385C1 /* ParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145A57F8221B1BE8006385C1 /* ParseClient.swift */; };
+		145A57FE221B1C61006385C1 /* RequestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145A57FD221B1C61006385C1 /* RequestHelper.swift */; };
+		145A5808221B6DC0006385C1 /* DeleteSessionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145A5807221B6DC0006385C1 /* DeleteSessionResponse.swift */; };
+		145A580A221B6DEA006385C1 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145A5809221B6DEA006385C1 /* Session.swift */; };
+		145A580C221C437E006385C1 /* PostSessionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145A580B221C437E006385C1 /* PostSessionResponse.swift */; };
+		145A580E221C43B6006385C1 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145A580D221C43B6006385C1 /* Account.swift */; };
+		145A5815221C93F2006385C1 /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145A5814221C93F2006385C1 /* Student.swift */; };
+		145A5818221C9649006385C1 /* GetStudentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145A5817221C9649006385C1 /* GetStudentResponse.swift */; };
+		145A582F221EEBD5006385C1 /* GetStudentsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145A582E221EEBD5006385C1 /* GetStudentsResponse.swift */; };
+		145A5831221EEFFB006385C1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145A5830221EEFFB006385C1 /* User.swift */; };
+		145A5833221EF275006385C1 /* GetUserIdResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145A5832221EF275006385C1 /* GetUserIdResponse.swift */; };
+		14DE9BD92214FBAD001BBC3C /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE9BD82214FBAD001BBC3C /* TabBarViewController.swift */; };
+		14DE9BE02215B2A6001BBC3C /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE9BDF2215B2A6001BBC3C /* UdacityClient.swift */; };
+		14F08ACF2215DBE30059901A /* FunctionsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F08ACE2215DBE30059901A /* FunctionsHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +56,7 @@
 /* Begin PBXFileReference section */
 		1413EDA622144DDB007D27BB /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1413EDA922144DDB007D27BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1413EDAB22144DDB007D27BB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1413EDAB22144DDB007D27BB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1413EDAE22144DDB007D27BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1413EDB022144DDC007D27BB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1413EDB322144DDC007D27BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +67,26 @@
 		1413EDC522144DDC007D27BB /* OnTheMapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OnTheMapUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1413EDC922144DDC007D27BB /* OnTheMapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnTheMapUITests.swift; sourceTree = "<group>"; };
 		1413EDCB22144DDC007D27BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1413EDDA22144EA7007D27BB /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		1413EDDC2214516C007D27BB /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		1413EDDE22145459007D27BB /* StudentsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentsTableViewController.swift; sourceTree = "<group>"; };
+		1413EDE022145479007D27BB /* StudentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentCell.swift; sourceTree = "<group>"; };
+		1413EDE222145883007D27BB /* InformationPostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationPostingViewController.swift; sourceTree = "<group>"; };
+		1413EDE4221459A7007D27BB /* ConfirmLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmLocationViewController.swift; sourceTree = "<group>"; };
+		145A57F8221B1BE8006385C1 /* ParseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseClient.swift; sourceTree = "<group>"; };
+		145A57FD221B1C61006385C1 /* RequestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHelper.swift; sourceTree = "<group>"; };
+		145A5807221B6DC0006385C1 /* DeleteSessionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteSessionResponse.swift; sourceTree = "<group>"; };
+		145A5809221B6DEA006385C1 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		145A580B221C437E006385C1 /* PostSessionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSessionResponse.swift; sourceTree = "<group>"; };
+		145A580D221C43B6006385C1 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		145A5814221C93F2006385C1 /* Student.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
+		145A5817221C9649006385C1 /* GetStudentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStudentResponse.swift; sourceTree = "<group>"; };
+		145A582E221EEBD5006385C1 /* GetStudentsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStudentsResponse.swift; sourceTree = "<group>"; };
+		145A5830221EEFFB006385C1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		145A5832221EF275006385C1 /* GetUserIdResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserIdResponse.swift; sourceTree = "<group>"; };
+		14DE9BD82214FBAD001BBC3C /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		14DE9BDF2215B2A6001BBC3C /* UdacityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
+		14F08ACE2215DBE30059901A /* FunctionsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionsHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,11 +137,11 @@
 		1413EDA822144DDB007D27BB /* OnTheMap */ = {
 			isa = PBXGroup;
 			children = (
-				1413EDA922144DDB007D27BB /* AppDelegate.swift */,
-				1413EDAB22144DDB007D27BB /* ViewController.swift */,
-				1413EDAD22144DDB007D27BB /* Main.storyboard */,
-				1413EDB022144DDC007D27BB /* Assets.xcassets */,
-				1413EDB222144DDC007D27BB /* LaunchScreen.storyboard */,
+				145A582D221EE4EB006385C1 /* Service */,
+				145A582B221EE4A1006385C1 /* Application */,
+				14DE9BD1221492C3001BBC3C /* Model */,
+				14DE9BCF2214927D001BBC3C /* View */,
+				145A582C221EE4AD006385C1 /* Assets */,
 				1413EDB522144DDC007D27BB /* Info.plist */,
 			);
 			path = OnTheMap;
@@ -123,6 +163,195 @@
 				1413EDCB22144DDC007D27BB /* Info.plist */,
 			);
 			path = OnTheMapUITests;
+			sourceTree = "<group>";
+		};
+		1413EDD722144E37007D27BB /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				145A582A221DD195006385C1 /* Tab Bar */,
+				145A5829221DD188006385C1 /* Confirm Location */,
+				145A5828221DD17C006385C1 /* Information Posting */,
+				145A5827221DD15A006385C1 /* Students Table View */,
+				145A5826221DD14F006385C1 /* Map */,
+				145A5825221DD141006385C1 /* Login */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		1413EDD922144E84007D27BB /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				1413EDAD22144DDB007D27BB /* Main.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		145A57FC221B1C0F006385C1 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				145A57FD221B1C61006385C1 /* RequestHelper.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		145A57FF221B1FFD006385C1 /* APIs */ = {
+			isa = PBXGroup;
+			children = (
+				145A580F221C4B5C006385C1 /* Udacity */,
+				145A5810221C4B69006385C1 /* Parse */,
+			);
+			path = APIs;
+			sourceTree = "<group>";
+		};
+		145A580F221C4B5C006385C1 /* Udacity */ = {
+			isa = PBXGroup;
+			children = (
+				14DE9BDF2215B2A6001BBC3C /* UdacityClient.swift */,
+				145A5813221C8F08006385C1 /* Response Structs */,
+			);
+			path = Udacity;
+			sourceTree = "<group>";
+		};
+		145A5810221C4B69006385C1 /* Parse */ = {
+			isa = PBXGroup;
+			children = (
+				145A57F8221B1BE8006385C1 /* ParseClient.swift */,
+				145A5816221C9627006385C1 /* Response Structs */,
+			);
+			path = Parse;
+			sourceTree = "<group>";
+		};
+		145A5813221C8F08006385C1 /* Response Structs */ = {
+			isa = PBXGroup;
+			children = (
+				145A580B221C437E006385C1 /* PostSessionResponse.swift */,
+				145A5807221B6DC0006385C1 /* DeleteSessionResponse.swift */,
+				145A5832221EF275006385C1 /* GetUserIdResponse.swift */,
+				145A5809221B6DEA006385C1 /* Session.swift */,
+				145A580D221C43B6006385C1 /* Account.swift */,
+				145A5830221EEFFB006385C1 /* User.swift */,
+			);
+			path = "Response Structs";
+			sourceTree = "<group>";
+		};
+		145A5816221C9627006385C1 /* Response Structs */ = {
+			isa = PBXGroup;
+			children = (
+				145A5817221C9649006385C1 /* GetStudentResponse.swift */,
+				145A582E221EEBD5006385C1 /* GetStudentsResponse.swift */,
+			);
+			path = "Response Structs";
+			sourceTree = "<group>";
+		};
+		145A5824221DD0EC006385C1 /* Student */ = {
+			isa = PBXGroup;
+			children = (
+				145A5814221C93F2006385C1 /* Student.swift */,
+			);
+			name = Student;
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		145A5825221DD141006385C1 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				1413EDAB22144DDB007D27BB /* LoginViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		145A5826221DD14F006385C1 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				1413EDDC2214516C007D27BB /* MapViewController.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		145A5827221DD15A006385C1 /* Students Table View */ = {
+			isa = PBXGroup;
+			children = (
+				1413EDDE22145459007D27BB /* StudentsTableViewController.swift */,
+				1413EDE022145479007D27BB /* StudentCell.swift */,
+			);
+			path = "Students Table View";
+			sourceTree = "<group>";
+		};
+		145A5828221DD17C006385C1 /* Information Posting */ = {
+			isa = PBXGroup;
+			children = (
+				1413EDE222145883007D27BB /* InformationPostingViewController.swift */,
+			);
+			path = "Information Posting";
+			sourceTree = "<group>";
+		};
+		145A5829221DD188006385C1 /* Confirm Location */ = {
+			isa = PBXGroup;
+			children = (
+				1413EDE4221459A7007D27BB /* ConfirmLocationViewController.swift */,
+			);
+			path = "Confirm Location";
+			sourceTree = "<group>";
+		};
+		145A582A221DD195006385C1 /* Tab Bar */ = {
+			isa = PBXGroup;
+			children = (
+				14DE9BD82214FBAD001BBC3C /* TabBarViewController.swift */,
+			);
+			path = "Tab Bar";
+			sourceTree = "<group>";
+		};
+		145A582B221EE4A1006385C1 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				1413EDA922144DDB007D27BB /* AppDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		145A582C221EE4AD006385C1 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				1413EDDA22144EA7007D27BB /* Default-568h@2x.png */,
+				1413EDB022144DDC007D27BB /* Assets.xcassets */,
+				1413EDB222144DDC007D27BB /* LaunchScreen.storyboard */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		145A582D221EE4EB006385C1 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				145A57FF221B1FFD006385C1 /* APIs */,
+				145A57FC221B1C0F006385C1 /* Helpers */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		14DE9BCF2214927D001BBC3C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1413EDD722144E37007D27BB /* Controllers */,
+				1413EDD922144E84007D27BB /* Storyboards */,
+				14F08AD02215DC620059901A /* Helpers */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		14DE9BD1221492C3001BBC3C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				145A5824221DD0EC006385C1 /* Student */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		14F08AD02215DC620059901A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				14F08ACE2215DBE30059901A /* FunctionsHelper.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -230,6 +459,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1413EDB422144DDC007D27BB /* LaunchScreen.storyboard in Resources */,
+				1413EDDB22144EA7007D27BB /* Default-568h@2x.png in Resources */,
 				1413EDB122144DDC007D27BB /* Assets.xcassets in Resources */,
 				1413EDAF22144DDB007D27BB /* Main.storyboard in Resources */,
 			);
@@ -256,8 +486,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1413EDAC22144DDB007D27BB /* ViewController.swift in Sources */,
+				145A57FE221B1C61006385C1 /* RequestHelper.swift in Sources */,
+				14DE9BE02215B2A6001BBC3C /* UdacityClient.swift in Sources */,
+				1413EDE122145479007D27BB /* StudentCell.swift in Sources */,
+				14F08ACF2215DBE30059901A /* FunctionsHelper.swift in Sources */,
+				14DE9BD92214FBAD001BBC3C /* TabBarViewController.swift in Sources */,
+				145A580C221C437E006385C1 /* PostSessionResponse.swift in Sources */,
+				145A5833221EF275006385C1 /* GetUserIdResponse.swift in Sources */,
+				1413EDE322145883007D27BB /* InformationPostingViewController.swift in Sources */,
+				1413EDAC22144DDB007D27BB /* LoginViewController.swift in Sources */,
+				145A5831221EEFFB006385C1 /* User.swift in Sources */,
+				145A5808221B6DC0006385C1 /* DeleteSessionResponse.swift in Sources */,
+				145A5818221C9649006385C1 /* GetStudentResponse.swift in Sources */,
+				145A582F221EEBD5006385C1 /* GetStudentsResponse.swift in Sources */,
+				1413EDDD2214516C007D27BB /* MapViewController.swift in Sources */,
+				145A580E221C43B6006385C1 /* Account.swift in Sources */,
+				1413EDDF22145459007D27BB /* StudentsTableViewController.swift in Sources */,
+				145A5815221C93F2006385C1 /* Student.swift in Sources */,
+				145A580A221B6DEA006385C1 /* Session.swift in Sources */,
 				1413EDAA22144DDB007D27BB /* AppDelegate.swift in Sources */,
+				1413EDE5221459A7007D27BB /* ConfirmLocationViewController.swift in Sources */,
+				145A57F9221B1BE8006385C1 /* ParseClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,7 +688,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bocato.OnTheMap;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.bocato.OnTheMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -457,7 +706,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bocato.OnTheMap;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.bocato.OnTheMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

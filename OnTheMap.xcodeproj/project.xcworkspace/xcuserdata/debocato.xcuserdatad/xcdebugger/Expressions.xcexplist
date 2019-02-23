@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "closure #1 in static ParseClient.getStudentRequest(with:success:failure:):ParseClient.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "data == nil">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
