@@ -86,8 +86,8 @@ class UdacityClient {
         }
     }
     
-    static func getUserIdRequest(with id: String,
-                                 success: @escaping (_ response: GetUserIdResponse?) -> Void,
+    static func getUserRequest(with id: String,
+                                 success: @escaping (_ response: User) -> Void,
                                  failure: @escaping (Error?) -> Void) {
         
         let pathExtension = URLParameters.userId + "/" + id
@@ -101,9 +101,9 @@ class UdacityClient {
             }
             
             // serialize response
-            guard let response = optionalResponse,
-                let data = try? JSONSerialization.data(withJSONObject: response, options: .prettyPrinted),
-                let serializedResponse = try? JSONDecoder().decode(GetUserIdResponse.self, from: data) else {
+            guard let responseDictionary = optionalResponse as? [String: Any],
+                let data = try? JSONSerialization.data(withJSONObject: responseDictionary, options: .prettyPrinted),
+                let serializedResponse = try? JSONDecoder().decode(User.self, from: data) else {
                     
                 let userInfo = [NSLocalizedDescriptionKey: "Empty response"]
                 let error = NSError(domain: "UdacityClient", code: 1, userInfo: userInfo)
@@ -114,6 +114,7 @@ class UdacityClient {
             
             // handle successfully serialized response (User)
             success(serializedResponse)
+            
         }
     }
     

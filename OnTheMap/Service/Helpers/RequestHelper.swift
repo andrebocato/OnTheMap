@@ -176,20 +176,26 @@ class RequestHelper {
 
     private static func createURLForAPI(api: API,
                                           parameters: [String: Any]? = nil,
-                                          withPathExtension: String? = nil) -> URL {
+                                          withPathExtension pathExtension: String? = nil) -> URL {
         var components = URLComponents()
         components.scheme = "https"
         switch api {
         case .udacity:
             components.host = UdacityClient.URLParameters.apiHost
-            components.path = UdacityClient.URLParameters.apiPath + (withPathExtension ?? "")
+            if let pathExtension = pathExtension {
+                components.path = UdacityClient.URLParameters.apiPath + pathExtension
+                debugPrint(components)
+            }
         case .parse:
             components.host = ParseClient.URLParameters.apiHost
-            components.path = ParseClient.URLParameters.apiPath + (withPathExtension ?? "")
+            if let pathExtension = pathExtension {
+                components.path = ParseClient.URLParameters.apiPath + pathExtension
+                debugPrint(components)
+            }
         }
-        components.queryItems = [URLQueryItem]()
         
         if let parameters = parameters {
+            components.queryItems = [URLQueryItem]()
             for (key, value) in parameters {
                 let queryItem = URLQueryItem(name: key, value: "\(value)")
                 components.queryItems?.append(queryItem)
