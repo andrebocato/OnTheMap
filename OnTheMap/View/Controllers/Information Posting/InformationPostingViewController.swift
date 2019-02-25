@@ -28,7 +28,7 @@ class InformationPostingViewController: UIViewController {
         FunctionsHelper.checkForEmptyText(locationTextField, emptyLocationLabel)
         FunctionsHelper.checkForEmptyText(linkTextField, emptyLinkLabel)
         
-        if (locationTextField.text != "") && (linkTextField.text != "") {
+        if (locationTextField.text != "") && (linkTextField.text != "") {            
             performSegue(withIdentifier: "ConfirmLocationSegue", sender: self)
         }
         

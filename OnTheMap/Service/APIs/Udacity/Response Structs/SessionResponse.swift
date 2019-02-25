@@ -8,9 +8,9 @@
 
 import Foundation
 
-struct PostSessionResponse: Codable {
+struct SessionResponse: Codable {
     
-    var account: Account
+    var account: Account?
     var session: Session
     
 }

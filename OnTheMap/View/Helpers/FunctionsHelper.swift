@@ -9,9 +9,8 @@
 
 import Foundation
 import UIKit
-import MapKit
 
-// Functions that are used in different view controllers. Created to avoid repeated code.
+// @TODO: Exterminate!!!
 
 class FunctionsHelper {
     
@@ -31,15 +30,5 @@ class FunctionsHelper {
             label.isHidden = true
         }
     }
-
-    // MARK: - Attributed text configuration
-
-    // Refactor: shouldn't be here
-//    static func setUpAttributedText(student: Student) -> NSMutableAttributedString {
-//        let attributedString = NSMutableAttributedString(string: student.firstName + student.lastName)
-//        let line2AttributedString = NSAttributedString(string: student.mediaURL, attributes: nil)
-//        attributedString.append(line2AttributedString)
-//        return attributedString
-//    }
     
 }

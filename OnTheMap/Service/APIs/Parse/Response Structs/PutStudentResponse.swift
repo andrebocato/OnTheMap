@@ -1,15 +1,15 @@
 //
-//  StudentsResponse.swift
+//  PutStudentResponse.swift
 //  OnTheMap
 //
-//  Created by André Sanches Bocato on 19/02/19.
+//  Created by Andre Sanches Bocato on 25/02/19.
 //  Copyright © 2019 André Sanches Bocato. All rights reserved.
 //
 
 import Foundation
 
-struct GetStudentResponse: Codable {
+struct PutStudentResponse: Codable {
     
     var student: Student
-
+    
 }

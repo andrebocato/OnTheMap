@@ -28,7 +28,7 @@ class UdacityClient {
     
     static func postSessionRequest(with username: String,
                                    password: String,
-                                   success: @escaping (_ response: PostSessionResponse?) -> Void,
+                                   success: @escaping (_ response: SessionResponse?) -> Void,
                                    failure: @escaping (Error?) -> Void) {
         
         // build jsonBody for POSTing
@@ -45,7 +45,7 @@ class UdacityClient {
             // take care of the response
             guard let response = optionalResponse,
                 let data = try? JSONSerialization.data(withJSONObject: response, options: .prettyPrinted),
-                let serializedResponse = try? JSONDecoder().decode(PostSessionResponse.self, from: data) else {
+                let serializedResponse = try? JSONDecoder().decode(SessionResponse.self, from: data) else {
                 
                 let userInfo = [NSLocalizedDescriptionKey: "Empty response"]
                 let error = NSError(domain: "UdacityClient", code: -1, userInfo: userInfo)
@@ -58,7 +58,7 @@ class UdacityClient {
         }
     }
     
-    static func deleteSesionRequest(success: @escaping (_ response: DeleteSessionResponse?) -> Void,
+    static func deleteSesionRequest(success: @escaping (_ response: SessionResponse?) -> Void,
                                     failure: @escaping (Error?) -> Void) {
         
         RequestHelper.taskForHTTPMethod(.delete, inAPI: .udacity, withPathExtension: URLParameters.sessionId) { (optionalResponse, optionalError) in
@@ -72,7 +72,7 @@ class UdacityClient {
             // serialize response
             guard let response = optionalResponse,
                 let data = try? JSONSerialization.data(withJSONObject: response, options: .prettyPrinted),
-                let serializedResponse = try? JSONDecoder().decode(DeleteSessionResponse.self, from: data) else {
+                let serializedResponse = try? JSONDecoder().decode(SessionResponse.self, from: data) else {
                     
                 let userInfo = [NSLocalizedDescriptionKey: "Empty response"]
                 let error = NSError(domain: "UdacityClient", code: 1, userInfo: userInfo)

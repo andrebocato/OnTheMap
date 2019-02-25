@@ -87,90 +87,6 @@ class RequestHelper {
         default: return
         }
     }
-    
-//    static func taskForGETMethod(api: API,
-//                                 _ method: String,
-//                                 parameters: [String: Any],
-//                                 completionHandlerForGET: @escaping (_ result: Any?, _ error: NSError?) -> Void) -> URLSessionDataTask {
-//
-//        let request = NSMutableURLRequest(url: urlFromParameters(api: api, parameters, withPathExtension: method))
-//        configureHTTPHeaders(for: request, using: api)
-//        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
-//            switch api {
-//            case API.Udacity:
-//                let newData = data?.subdata(in: 5..<data!.count) /* subset response data! */
-//                self.handleErrorsAndConverData(error, response as? HTTPURLResponse, newData, completionHandlerForGET)
-//            case API.Parse:
-//                self.handleErrorsAndConverData(error, response as? HTTPURLResponse, data, completionHandlerForGET)
-//            }
-//        }
-//        task.resume()
-//        return task
-//    }
-//
-//    static func taskForPOSTMethod(api: API,
-//                                  _ method: String,
-//                                  parameters: [String: Any],
-//                                  jsonBody: String,
-//                                  completionHandlerForPOST: @escaping (_ result: Any?, _ error: NSError?) -> Void) -> URLSessionDataTask {
-//
-//        let request = NSMutableURLRequest(url: urlFromParameters(api: api, parameters, withPathExtension: method))
-//        request.httpMethod = "POST"
-//        configureHTTPHeaders(for: request, using: api)
-//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//        request.httpBody = jsonBody.data(using: .utf8)
-//
-//        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
-//            self.handleErrorsAndConverData(error, response as? HTTPURLResponse, data, completionHandlerForPOST)
-//        }
-//        task.resume()
-//        return task
-//    }
-//
-//    static func taskForPUTMethod(api: API,
-//                                 _ method: String,
-//                                 parameters: [String: Any],
-//                                 jsonBody: String,
-//                                 completionHandlerForPUT: @escaping (_ result: Any?, _ error: NSError?) -> Void) -> URLSessionDataTask {
-//
-//        let request = NSMutableURLRequest(url: urlFromParameters(api: api, parameters, withPathExtension: method))
-//        request.httpMethod = "PUT"
-//        configureHTTPHeaders(for: request, using: api)
-//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//        request.httpBody = jsonBody.data(using: .utf8)
-//
-//        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
-//            self.handleErrorsAndConverData(error, response as? HTTPURLResponse, data, completionHandlerForPUT)
-//        }
-//        task.resume()
-//        return task
-//    }
-//
-//    static func taskForDELETEMethod(api: API,
-//                                 _ method: String,
-//                                 parameters: [String: Any],
-//                                 completionHandlerForDELETE: @escaping (_ result: Any?, _ error: NSError?) -> Void) -> URLSessionDataTask {
-//
-//        let request = NSMutableURLRequest(url: urlFromParameters(api: api, parameters, withPathExtension: method))
-//        request.httpMethod = "DELETE"
-//
-//        // stuff for DELETE task
-//        var xsrfCookie: HTTPCookie? = nil
-//        let sharedCookieStorage = HTTPCookieStorage.shared
-//        for cookie in sharedCookieStorage.cookies! {
-//            if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie }
-//        }
-//        if let xsrfCookie = xsrfCookie {
-//            request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
-//        }
-//
-//        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
-//            let newData = data?.subdata(in: 5..<data!.count) /* subset response data! */
-//            self.handleErrorsAndConverData(error, response as? HTTPURLResponse, newData, completionHandlerForDELETE)
-//        }
-//        task.resume()
-//        return task
-//    }
 
     // MARK: - Helper Functions
 
@@ -184,13 +100,11 @@ class RequestHelper {
             components.host = UdacityClient.URLParameters.apiHost
             if let pathExtension = pathExtension {
                 components.path = UdacityClient.URLParameters.apiPath + pathExtension
-                debugPrint(components)
             }
         case .parse:
             components.host = ParseClient.URLParameters.apiHost
             if let pathExtension = pathExtension {
                 components.path = ParseClient.URLParameters.apiPath + pathExtension
-                debugPrint(components)
             }
         }
         

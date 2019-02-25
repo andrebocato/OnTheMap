@@ -36,22 +36,20 @@ class LoginViewController: UIViewController {
             _ = textFieldShouldReturn(usernameTextField)
             _ = textFieldShouldReturn(passwordTextField)
             
+            activityIndicatorView.startAnimating()
+            activityIndicatorView.isHidden = false
+            
             let username = usernameTextField.text!, password = passwordTextField.text!
             
-            // 'print' statements are only for testing and finding where the code breaks. will be removed after this part is working fine
-            
-            // POST session and get response.account.key as a response
             UdacityClient.postSessionRequest(with: username, password: password, success: { (postSessionResponse) in
                 
-                // store response value in 'userId' variable
-                if let userId = postSessionResponse?.account.key {
-                    print("userId = " + userId)
-                    
-                    // use 'userId' to GET from response
-                    UdacityClient.getUserRequest(with: userId, success: { (user) in
-                        // request is failing, 'success' scope is not being executed
-                        
+                if let userId = postSessionResponse?.account?.key {
+                    UdacityClient.getUserRequest(with: userId, success: { (userFromResponse) in
+                        CurrentSessionData.shared.user = userFromResponse
                         DispatchQueue.main.async {
+                            self.activityIndicatorView.stopAnimating()
+                            self.activityIndicatorView.isHidden = true
+                            
                             self.performSegue(withIdentifier: "CompleteLoginSegue", sender: self)
                         }
                     }, failure: { (optionalError) in
@@ -84,9 +82,6 @@ class LoginViewController: UIViewController {
         
         usernameTextField.delegate = self
         passwordTextField.delegate = self
-        
-        usernameTextField.text = "debocato@gmail.com"
-        passwordTextField.text = "andre0102"
         
         FunctionsHelper.configureButton(loginButton)
     }

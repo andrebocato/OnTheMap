@@ -20,6 +20,9 @@ class MapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // @TODO: GET request for students
+        
         mapView.delegate = self
     }
     

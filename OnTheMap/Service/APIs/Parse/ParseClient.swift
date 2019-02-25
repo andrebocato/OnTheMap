@@ -24,8 +24,8 @@ class ParseClient {
         static let apiPath = "/parse/classes"
         
         // API Methods
-        static let studentLocation = "/StudentLocation"                  // GET multiple or single student locations, POST student location
-        static let studentLocationObjectId = "/StudentLocation/<objectId>"  // PUT student location (update)
+        static let studentLocation = "/StudentLocation"                     // GET multiple or single student locations, POST student location
+        static let studentLocationObjectId = "/StudentLocation"             // PUT student location (update)
     }
     
     // MARK: - Functions
@@ -73,14 +73,7 @@ class ParseClient {
                 failure(optionalError)
                 return
             }
-            
-            // @TODO: retrieve 'student' from response that has the uniqueKey i am looking for
-            
-            // problem seems to be here...
-            // following guard statement is failing and executing 'else'
-            // looks like optionalResponse is returning the full list of students
-            
-            // take care of the response and check for errors
+        
             guard let response = optionalResponse,
                 let data = try? JSONSerialization.data(withJSONObject: response, options: .prettyPrinted),
                 let serializedResponse = try? JSONDecoder().decode(GetStudentResponse.self, from: data) else {
@@ -97,6 +90,34 @@ class ParseClient {
         }
     }
     
-    // @TODO: PUT request
+    static func putStudentRequest(with objectId: String,
+                                  success: @escaping (_ students: PutStudentResponse?) -> Void,
+                                  failure: @escaping (Error?) -> Void) {
+        
+        let pathExtension = URLParameters.studentLocationObjectId + "/" + objectId
+        
+        RequestHelper.taskForHTTPMethod(.put, inAPI: .parse, withPathExtension: pathExtension) { (optionalResponse, optionalError) in
+            
+            // check for error and handle failure with given error
+            guard optionalError == nil else {
+                failure(optionalError)
+                return
+            }
+            
+            guard let response = optionalResponse,
+                let data = try? JSONSerialization.data(withJSONObject: response, options: .prettyPrinted),
+                let serializedResponse = try? JSONDecoder().decode(PutStudentResponse.self, from: data) else {
+                    
+                    let userInfo = [NSLocalizedDescriptionKey: "Empty response"]
+                    let error = NSError(domain: "ParseClient", code: 1, userInfo: userInfo)
+                    failure(error)
+                    
+                    return
+            }
+            
+            // handle successfully serialized response
+            success(serializedResponse)
+        }
+    }
     
 }
