@@ -10,6 +10,6 @@ import Foundation
 
 struct GetStudentsResponse: Codable {
     
-    var students: [Student]
+    var results: [Student]
     
 }

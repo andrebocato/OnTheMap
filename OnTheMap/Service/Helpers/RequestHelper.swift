@@ -116,7 +116,6 @@ class RequestHelper {
             }
         }
         
-        // @TODO: safe unwrap
         return components.url!
     }
 

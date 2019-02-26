@@ -18,14 +18,12 @@ class CurrentSessionData {
     
     var user: User?
     var session: SessionResponse?
-    var students: [Student]?
     
     // MARK: - Functions
     
     func clearSessionData() {
         user = nil
         session = nil
-        students = nil
     }
     
 }

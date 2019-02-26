@@ -24,19 +24,23 @@ class ParseClient {
         static let apiPath = "/parse/classes"
         
         // API Methods
-        static let studentLocation = "/StudentLocation"                     // GET multiple or single student locations, POST student location
-        static let studentLocationObjectId = "/StudentLocation"             // PUT student location (update)
+        static let studentLocation = "/StudentLocation"                     // GET multiple or single student locations, POST student location, PUT student location (update)
     }
     
     // MARK: - Functions
     
-    static func getStudentsRequest(limit: Int,
-                                   skip: Int,
+    static func getStudentsRequest(limit: Int = 100,
+                                   skip: Int? = nil,
                                    order: String,
                                    success: @escaping (_ students: GetStudentsResponse?) -> Void,
                                    failure: @escaping (Error?) -> Void) {
         
-        RequestHelper.taskForHTTPMethod(.get, inAPI: .parse, withPathExtension: URLParameters.studentLocation) { (optionalResponse, optionalError) in
+        var pathExtension = URLParameters.studentLocation + "?limit=\(limit)" + "&order=\(order)"
+        if let skip = skip {
+            pathExtension = URLParameters.studentLocation + "?limit=\(limit)" + "&skip=\(skip)" + "&order=\(order)"
+        }
+        
+        RequestHelper.taskForHTTPMethod(.get, inAPI: .parse, withPathExtension: pathExtension) { (optionalResponse, optionalError) in
             
             // check for error and handle failure with given error
             guard optionalError == nil else {
@@ -66,7 +70,9 @@ class ParseClient {
                                   success: @escaping (_ student: GetStudentResponse?) -> Void,
                                   failure: @escaping (Error?) -> Void) {
         
-        RequestHelper.taskForHTTPMethod(.get, inAPI: .parse, withPathExtension: URLParameters.studentLocation) { (optionalResponse, optionalError) in
+        let pathExtension = URLParameters.studentLocation + "?where={\"uniqueKey\":\"\(uniqueKey)\"}"
+        
+        RequestHelper.taskForHTTPMethod(.get, inAPI: .parse, withPathExtension: pathExtension) { (optionalResponse, optionalError) in
             
             // check for error and handle failure with given error
             guard optionalError == nil else {
@@ -90,11 +96,39 @@ class ParseClient {
         }
     }
     
+    static func postStudentRequest(with parameters: [String: Any],
+                                  success: @escaping (_ students: PostStudentResponse?) -> Void,
+                                  failure: @escaping (Error?) -> Void) {
+        
+        RequestHelper.taskForHTTPMethod(.put, inAPI: .parse, withPathExtension: URLParameters.studentLocation) { (optionalResponse, optionalError) in
+            
+            // check for error and handle failure with given error
+            guard optionalError == nil else {
+                failure(optionalError)
+                return
+            }
+            
+            guard let response = optionalResponse,
+                let data = try? JSONSerialization.data(withJSONObject: response, options: .prettyPrinted),
+                let serializedResponse = try? JSONDecoder().decode(PostStudentResponse.self, from: data) else {
+                    
+                    let userInfo = [NSLocalizedDescriptionKey: "Empty response"]
+                    let error = NSError(domain: "ParseClient", code: 1, userInfo: userInfo)
+                    failure(error)
+                    
+                    return
+            }
+            
+            // handle successfully serialized response
+            success(serializedResponse)
+        }
+    }
+    
     static func putStudentRequest(with objectId: String,
                                   success: @escaping (_ students: PutStudentResponse?) -> Void,
                                   failure: @escaping (Error?) -> Void) {
         
-        let pathExtension = URLParameters.studentLocationObjectId + "/" + objectId
+        let pathExtension = URLParameters.studentLocation + "/" + objectId
         
         RequestHelper.taskForHTTPMethod(.put, inAPI: .parse, withPathExtension: pathExtension) { (optionalResponse, optionalError) in
             

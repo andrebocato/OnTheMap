@@ -38,7 +38,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" textContentType="password"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Oie-Y9-vvY">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="debocato@gmail.com" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Oie-Y9-vvY">
                                 <rect key="frame" x="40" y="221" width="295" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -202,7 +202,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="fih-yq-cUs" kind="relationship" relationship="viewControllers" id="u7C-EK-SO2"/>
-                        <segue destination="hVn-oF-9OS" kind="relationship" relationship="viewControllers" id="4Dm-dD-YHV"/>
+                        <segue destination="BRD-gY-AHQ" kind="relationship" relationship="viewControllers" id="7jO-wu-ayr"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gbz-Ep-SAM" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -337,34 +337,50 @@
             </objects>
             <point key="canvasLocation" x="1818" y="931"/>
         </scene>
-        <!--People List Scene-->
-        <scene sceneID="xaJ-mU-t1O">
+        <!--Students List-->
+        <scene sceneID="V9T-YS-EtK">
             <objects>
-                <tableViewController storyboardIdentifier="PeopleTableViewController" title="People List Scene" useStoryboardIdentifierAsRestorationIdentifier="YES" id="hVn-oF-9OS" customClass="StudentsTableViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="7l7-Px-wWS">
+                <viewController storyboardIdentifier="StudentsListViewController" title="StudentsListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BRD-gY-AHQ" userLabel="Students List" customClass="StudentsListViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VEn-0d-Rtu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="onB-bh-y8f">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="StudentCell" id="4mh-La-I4D">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4mh-La-I4D" id="qcR-5R-m9B">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BRD-gY-AHQ" id="KZN-8s-YsU"/>
+                                    <outlet property="delegate" destination="BRD-gY-AHQ" id="Yph-kI-m03"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="StudentCell" id="ZEN-IX-IpK">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZEN-IX-IpK" id="r8D-VU-f25">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="hVn-oF-9OS" id="CwZ-pY-IHX"/>
-                            <outlet property="delegate" destination="hVn-oF-9OS" id="uF2-gf-odx"/>
-                        </connections>
-                    </tableView>
-                    <tabBarItem key="tabBarItem" title="Students List" id="JGG-ah-4uU"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="W6Q-5b-DBy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <constraints>
+                            <constraint firstItem="9Zw-Vt-R7f" firstAttribute="trailing" secondItem="onB-bh-y8f" secondAttribute="trailing" id="JB9-Ty-mEX"/>
+                            <constraint firstItem="9Zw-Vt-R7f" firstAttribute="bottom" secondItem="onB-bh-y8f" secondAttribute="bottom" id="bl2-tV-owc"/>
+                            <constraint firstItem="onB-bh-y8f" firstAttribute="leading" secondItem="9Zw-Vt-R7f" secondAttribute="leading" id="qOs-l4-AsR"/>
+                            <constraint firstItem="onB-bh-y8f" firstAttribute="top" secondItem="9Zw-Vt-R7f" secondAttribute="top" id="s8e-dN-jil"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="9Zw-Vt-R7f"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="DkZ-Tm-e4I" userLabel="Students List"/>
+                    <connections>
+                        <outlet property="studentsTableView" destination="onB-bh-y8f" id="bEX-6b-NtZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OQH-zs-1MM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2029.5999999999999" y="133.5832083958021"/>
+            <point key="canvasLocation" x="2030" y="134"/>
         </scene>
     </scenes>
 </document>

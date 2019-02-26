@@ -36,35 +36,7 @@ class LoginViewController: UIViewController {
             _ = textFieldShouldReturn(usernameTextField)
             _ = textFieldShouldReturn(passwordTextField)
             
-            activityIndicatorView.startAnimating()
-            activityIndicatorView.isHidden = false
-            
-            let username = usernameTextField.text!, password = passwordTextField.text!
-            
-            UdacityClient.postSessionRequest(with: username, password: password, success: { (postSessionResponse) in
-                
-                if let userId = postSessionResponse?.account?.key {
-                    UdacityClient.getUserRequest(with: userId, success: { (userFromResponse) in
-                        CurrentSessionData.shared.user = userFromResponse
-                        DispatchQueue.main.async {
-                            self.activityIndicatorView.stopAnimating()
-                            self.activityIndicatorView.isHidden = true
-                            
-                            self.performSegue(withIdentifier: "CompleteLoginSegue", sender: self)
-                        }
-                    }, failure: { (optionalError) in
-                        if let error = optionalError {
-                            self.displayError(error, description: "Failed to GET userId.")
-                        }
-                    })
-                    // end of GET userId request
-                }
-            }, failure: { (optionalError) in
-                if let error = optionalError {
-                    self.displayError(error, description: "Failed to POST login session.")
-                }
-            })
-            // end of POST session request
+            self.doLogin()
         }
     }
     
@@ -88,6 +60,40 @@ class LoginViewController: UIViewController {
     
     // MARK: - Helper Functions
     
+    private func doLogin() {
+        self.configureUIForRequestInProgress(true)
+        
+        let username = usernameTextField.text!, password = passwordTextField.text!
+        
+        UdacityClient.postSessionRequest(with: username, password: password, success: { (postSessionResponse) in
+            
+            if let userId = postSessionResponse?.account?.key {
+                UdacityClient.getUserRequest(with: userId, success: { (userFromResponse) in
+                    CurrentSessionData.shared.user = userFromResponse
+                    DispatchQueue.main.async {
+                        self.configureUIForRequestInProgress(false)
+                        
+                        self.performSegue(withIdentifier: "CompleteLoginSegue", sender: self)
+                    }
+                }, failure: { (optionalError) in
+                    // repeated code
+                    if let error = optionalError {
+                        self.displayError(error, description: "Failed to GET userId.")
+                    }
+                    self.configureUIForRequestInProgress(false)
+                })
+                // end of GET userId request
+            }
+        }, failure: { (optionalError) in
+            // repeated code
+            if let error = optionalError {
+                self.displayError(error, description: "Failed to POST login session.")
+            }
+            self.configureUIForRequestInProgress(false)
+        })
+        // end of POST session request
+    }
+    
     // repeated code
     private func displayError(_ error: Error,
                               description: String? = nil) {
@@ -99,6 +105,19 @@ class LoginViewController: UIViewController {
         }
     }
     
+    // @TODO: refactor. could be better
+    private func configureUIForRequestInProgress(_ inProgress: Bool) {
+        if inProgress == true {
+            activityIndicatorView.startAnimating()
+            activityIndicatorView.isHidden = false
+            loginButton.isEnabled = false
+        } else {
+            activityIndicatorView.stopAnimating()
+            activityIndicatorView.isHidden = true
+            loginButton.isEnabled = true
+        }
+    }
+    
 }
 
 // MARK: - Extensions
@@ -107,9 +126,15 @@ extension LoginViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.endEditing(true)
-        if textField == usernameTextField {
+        switch textField {
+        case usernameTextField:
             passwordTextField.becomeFirstResponder()
+        case passwordTextField:
+            // @TODO: press login button
+            print("login button must be pressed")
+        default: return true
         }
+        
         return true
     }
     

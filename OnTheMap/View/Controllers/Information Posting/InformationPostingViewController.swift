@@ -23,7 +23,7 @@ class InformationPostingViewController: UIViewController {
     // MARK: - IBActions
 
     @IBAction private func confirmLocationButtonDidReceiveTouchUpInside(_ sender: Any) {
-        // @TODO: search location in map database
+        // @TODO: search location in map database and send coordinates (latitude and longitude as Double) to the next screen)
        
         FunctionsHelper.checkForEmptyText(locationTextField, emptyLocationLabel)
         FunctionsHelper.checkForEmptyText(linkTextField, emptyLinkLabel)
@@ -33,6 +33,8 @@ class InformationPostingViewController: UIViewController {
         }
         
     }
+    
+    
     
     // MARK: - Life Cycle
     
