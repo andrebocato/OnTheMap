@@ -17,6 +17,18 @@ class ConfirmLocationViewController: UIViewController {
     @IBOutlet private weak var mapView: MKMapView!
     @IBOutlet private weak var finishButton: UIButton!
     
+    // MARK: - Properties
+    
+    let currentUser = CurrentSessionData.shared.user!
+    var currentStudentObjectId: String?
+    
+    var location = ""
+    var link = ""
+    var latitude = -19.932943
+    var longitude = -43.939689
+    
+    var studentDoesExist = Bool()
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -32,38 +44,42 @@ class ConfirmLocationViewController: UIViewController {
     
     @IBAction private func finishButtonDidReceiveTouchUpInside(_ sender: Any) {
         
-        // @TODO: determine wether should make POST or PUT request
+        self.searchStudent(withKey: currentUser.key)
         
-        let parameters: [String: Any] = [
-            "uniqueKey": CurrentSessionData.shared.user!.key,
-            "firstName": CurrentSessionData.shared.user!.firstName,
-            "lastName": CurrentSessionData.shared.user!.lastName,
-            "mapString": "locationTextField.text (from InformationPostingVC)",
-            "mediaURL": "linkTextField.tet (from InformationPostingVC)",
-            "latitude": "latitude from mapView (Double)",
-            "longitude": "longitude from mapView (Double)"
-        ]
-        
-        // POST request with 'parameters'
-        ParseClient.postStudentRequest(with: parameters, success: { (postStudentResponse) in
-            // treat response
-        }) { (optionalError) in
-            if let error = optionalError {
-                self.displayError(error, description: "Failed to POST student.")
-            }
-        } // end of POST request
-        
-        // set objectId
-        let objectId = "" // setting to avoid error
-        
-        // PUT request with student's objectId
-        ParseClient.putStudentRequest(with: objectId, success: { (putStudentResponse) in
-            // treat response
-        }) { (optionalError) in
-            if let error = optionalError {
-                self.displayError(error, description: "Failed to PUT student.")
-            }
-        } // end of PUT request
+        if studentDoesExist == true { // objectId from response != nil
+            
+            // PUT request with student's objectId
+            ParseClient.putStudentRequest(withObjectId: currentStudentObjectId!, success: { (putStudentResponse) in
+                // @TODO: update student parameters (mapstring, mediaURL, latitude, longitude)
+            }) { (optionalError) in
+                if let error = optionalError {
+                    self.displayError(error, description: "Failed to PUT student.")
+                }
+            } // end of PUT request
+            
+        } else { // objectId from response == nil
+            
+            let parametersForPOSTing: [String: Any] = [
+                "uniqueKey": currentUser.key,
+                "firstName": currentUser.firstName,
+                "lastName": currentUser.lastName,
+                "mapString": location,
+                "mediaURL": link,
+                "latitude": latitude,
+                "longitude": longitude
+            ]
+            
+            // POST request with 'parameters'
+            ParseClient.postStudentRequest(withParameters: parametersForPOSTing, success: { (postStudentResponse) in
+                if let objectIdFromResponse = postStudentResponse?.objectId {
+                    self.currentStudentObjectId = objectIdFromResponse
+                }
+            }) { (optionalError) in
+                if let error = optionalError {
+                    self.displayError(error, description: "Failed to POST student.")
+                }
+            } // end of POST request
+        }
         
         DispatchQueue.main.async {
             self.navigationController?.popToRootViewController(animated: true)
@@ -83,6 +99,26 @@ class ConfirmLocationViewController: UIViewController {
         }
     }
     
+    // sets boolean state of 'studentDoesExist' and 'currentStudentObjectId' value (if it's not nil)
+    private func searchStudent(withKey key: String) {
+        // GET student request
+        ParseClient.getStudentRequest(withUniqueKey: currentUser.key, success: { (getStudentResponse) in
+            guard let responseArray = getStudentResponse?.results, !responseArray.isEmpty else {
+                self.studentDoesExist = false
+                return
+            }
+            
+            let id = responseArray.first?.objectId
+            self.studentDoesExist = true
+            self.currentStudentObjectId = id
+            
+        }) { (optionalError) in
+            if let error = optionalError {
+                self.displayError(error, description: "Failed to GET student.")
+            }
+        } // end of GET request
+    }
+    
 }
 
 // MARK: - Extensions
@@ -91,6 +127,29 @@ extension ConfirmLocationViewController: MKMapViewDelegate {
     
     // MARK: - MKMapViewDelegate methods
     
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        let reuseId = "pin"
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+        
+        if let pinView = pinView {
+            pinView.annotation = annotation
+        } else {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView!.canShowCallout = true
+            pinView!.pinTintColor = .red
+            pinView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        }
+        
+        return pinView
+    }
     
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if control == view.rightCalloutAccessoryView {
+            if let toOpen = view.annotation?.subtitle! {
+                UIApplication.shared.open(URL(string: toOpen)!, options: [:], completionHandler: nil)
+            }
+        }
+    }
     
 }

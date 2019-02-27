@@ -66,7 +66,7 @@ class ParseClient {
         
     }
     
-    static func getStudentRequest(with uniqueKey: String,
+    static func getStudentRequest(withUniqueKey uniqueKey: String,
                                   success: @escaping (_ student: GetStudentResponse?) -> Void,
                                   failure: @escaping (Error?) -> Void) {
         
@@ -96,11 +96,11 @@ class ParseClient {
         }
     }
     
-    static func postStudentRequest(with parameters: [String: Any],
+    static func postStudentRequest(withParameters parameters: [String: Any],
                                   success: @escaping (_ students: PostStudentResponse?) -> Void,
                                   failure: @escaping (Error?) -> Void) {
         
-        RequestHelper.taskForHTTPMethod(.put, inAPI: .parse, withPathExtension: URLParameters.studentLocation) { (optionalResponse, optionalError) in
+        RequestHelper.taskForHTTPMethod(.post, inAPI: .parse, withPathExtension: URLParameters.studentLocation) { (optionalResponse, optionalError) in
             
             // check for error and handle failure with given error
             guard optionalError == nil else {
@@ -124,7 +124,7 @@ class ParseClient {
         }
     }
     
-    static func putStudentRequest(with objectId: String,
+    static func putStudentRequest(withObjectId objectId: String,
                                   success: @escaping (_ students: PutStudentResponse?) -> Void,
                                   failure: @escaping (Error?) -> Void) {
         

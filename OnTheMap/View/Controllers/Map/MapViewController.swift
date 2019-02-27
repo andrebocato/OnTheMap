@@ -26,7 +26,7 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         mapView.delegate = self
         
-        // @TODO: GET request for students
+        // GET request for students
         ParseClient.getStudentsRequest(limit: 100, skip: 100, order: "-updatedAt", success: { (getStudentsResponse) in
             if let studentsArrayFromResponse = getStudentsResponse?.results {
                 self.students = studentsArrayFromResponse
@@ -35,7 +35,7 @@ class MapViewController: UIViewController {
             if let error = optionalError {
                 self.displayError(error, description: "Failed to GET students.")
             }
-        }
+        } // end of GET students request
         
     }
     

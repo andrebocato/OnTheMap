@@ -28,7 +28,8 @@ class InformationPostingViewController: UIViewController {
         FunctionsHelper.checkForEmptyText(locationTextField, emptyLocationLabel)
         FunctionsHelper.checkForEmptyText(linkTextField, emptyLinkLabel)
         
-        if (locationTextField.text != "") && (linkTextField.text != "") {            
+        if (locationTextField.text != "") && (linkTextField.text != "") {
+            
             performSegue(withIdentifier: "ConfirmLocationSegue", sender: self)
         }
         
@@ -44,6 +45,15 @@ class InformationPostingViewController: UIViewController {
         locationTextField.delegate = self
         linkTextField.delegate = self
         FunctionsHelper.configureButton(confirmLocationButton)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is ConfirmLocationViewController {
+            if let vc = segue.destination as? ConfirmLocationViewController {
+                vc.location = locationTextField.text!
+                vc.link = linkTextField.text!
+            }
+        }
     }
     
 }

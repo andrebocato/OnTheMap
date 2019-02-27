@@ -10,7 +10,7 @@ import Foundation
 
 struct PostStudentResponse: Codable {
     
-    var updatedAt: Date
+    var createdAt: String
     var objectId: String
     
 }

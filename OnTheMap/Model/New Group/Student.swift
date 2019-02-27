@@ -18,7 +18,7 @@ struct Student: Codable {
     var longitude: Double
     var mapString: String
     var mediaURL: String
-    var objectId: String
+    var objectId: String?
     var uniqueKey: String
     
 }

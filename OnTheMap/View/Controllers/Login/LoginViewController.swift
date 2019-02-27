@@ -65,10 +65,10 @@ class LoginViewController: UIViewController {
         
         let username = usernameTextField.text!, password = passwordTextField.text!
         
-        UdacityClient.postSessionRequest(with: username, password: password, success: { (postSessionResponse) in
+        UdacityClient.postSessionRequest(withUsername: username, password: password, success: { (postSessionResponse) in
             
             if let userId = postSessionResponse?.account?.key {
-                UdacityClient.getUserRequest(with: userId, success: { (userFromResponse) in
+                UdacityClient.getUserRequest(withId: userId, success: { (userFromResponse) in
                     CurrentSessionData.shared.user = userFromResponse
                     DispatchQueue.main.async {
                         self.configureUIForRequestInProgress(false)
@@ -126,13 +126,8 @@ extension LoginViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.endEditing(true)
-        switch textField {
-        case usernameTextField:
+        if textField == usernameTextField {
             passwordTextField.becomeFirstResponder()
-        case passwordTextField:
-            // @TODO: press login button
-            print("login button must be pressed")
-        default: return true
         }
         
         return true

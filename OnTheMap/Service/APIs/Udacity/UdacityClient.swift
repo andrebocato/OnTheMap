@@ -26,7 +26,7 @@ class UdacityClient {
     
     // MARK: - Functions
     
-    static func postSessionRequest(with username: String,
+    static func postSessionRequest(withUsername username: String,
                                    password: String,
                                    success: @escaping (_ response: SessionResponse?) -> Void,
                                    failure: @escaping (Error?) -> Void) {
@@ -86,8 +86,8 @@ class UdacityClient {
         }
     }
     
-    static func getUserRequest(with id: String,
-                                 success: @escaping (_ response: User) -> Void,
+    static func getUserRequest(withId id: String,
+                                 success: @escaping (_ response: User?) -> Void,
                                  failure: @escaping (Error?) -> Void) {
         
         let pathExtension = URLParameters.userId + "/" + id
@@ -103,7 +103,7 @@ class UdacityClient {
             // serialize response
             guard let responseDictionary = optionalResponse as? [String: Any],
                 let data = try? JSONSerialization.data(withJSONObject: responseDictionary, options: .prettyPrinted),
-                let serializedResponse = try? JSONDecoder().decode(User.self, from: data) else {
+                let serializedResponse = try? JSONDecoder().decode(User?.self, from: data) else {
                     
                 let userInfo = [NSLocalizedDescriptionKey: "Empty response"]
                 let error = NSError(domain: "UdacityClient", code: 1, userInfo: userInfo)
