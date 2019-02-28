@@ -36,7 +36,7 @@
                                 <rect key="frame" x="40" y="271" width="295" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" textContentType="password"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="continue" textContentType="password"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="debocato@gmail.com" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Oie-Y9-vvY">
                                 <rect key="frame" x="40" y="221" width="295" height="30"/>
@@ -292,7 +292,7 @@
         <!--Confirm Location-->
         <scene sceneID="tNu-DW-Ihc">
             <objects>
-                <viewController storyboardIdentifier="FindLocationViewController" title="Add Location" useStoryboardIdentifierAsRestorationIdentifier="YES" id="sm1-Op-Uqo" userLabel="Confirm Location" customClass="ConfirmLocationViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FindLocationViewController" title="Add Location" useStoryboardIdentifierAsRestorationIdentifier="YES" id="sm1-Op-Uqo" userLabel="Confirm Location" customClass="SubmitLocationViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TPf-dx-5zQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -329,8 +329,8 @@
                         <viewLayoutGuide key="safeArea" id="VQr-D4-cgL"/>
                     </view>
                     <connections>
-                        <outlet property="finishButton" destination="9kt-Mc-7fh" id="aBa-G1-N5E"/>
                         <outlet property="mapView" destination="yHL-55-qlI" id="k6j-0I-faz"/>
+                        <outlet property="submitButton" destination="9kt-Mc-7fh" id="aBa-G1-N5E"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o3y-KM-oGW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -346,14 +346,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="onB-bh-y8f">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="StudentCell" id="4mh-La-I4D">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4mh-La-I4D" id="qcR-5R-m9B">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>

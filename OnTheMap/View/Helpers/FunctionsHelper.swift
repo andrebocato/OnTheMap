@@ -18,17 +18,14 @@ class FunctionsHelper {
     
     // MARK: - UI Configuration functions
     
-    static func configureButton(_ button: UIButton) {
-        button.layer.cornerRadius = 15
-    }
-    
+    // @TODO: Refactor, gross function
     static func checkForEmptyText(_ textField: UITextField, _ label: UILabel) {
-        if textField.text == "" {
+        guard let text = textField.text, !text.isEmpty else {
             label.isHidden = false
             label.text = "This field must not be empty."
-        } else {
-            label.isHidden = true
+            return
         }
+        label.isHidden = true
     }
     
 }

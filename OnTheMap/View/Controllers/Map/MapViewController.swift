@@ -19,6 +19,7 @@ class MapViewController: UIViewController {
     // MARK: - Properties
     
     private var students = [Student]()
+    private var annotations = [MKAnnotation]()
     
     // MARK: - Life Cycle
     
@@ -27,27 +28,13 @@ class MapViewController: UIViewController {
         mapView.delegate = self
         
         fetchStudents()
-        
-        var annotations = [MKAnnotation]()
-        
-        for student in students {
-            let coordinate = CLLocationCoordinate2D(latitude: student.latitude, longitude: student.longitude)
-            
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = coordinate
-            annotation.title = "\(student.firstName) \(student.lastName)"
-            annotation.subtitle = student.mediaURL
-            
-            annotations.append(annotation)
-        }
-        
-        self.mapView.addAnnotations(annotations)
+        addStudentsAnnotations()
         
     }
     
     // MARK: - Helper Functions
     
-    // repeated code
+    // @TODO: Refactor, repeated code
     private func displayError(_ error: Error,
                               description: String? = nil) {
         
@@ -58,7 +45,7 @@ class MapViewController: UIViewController {
         }
     }
     
-    // repeated code
+    // @TODO: Refactor, repeated code
     private func fetchStudents() {
         
         // GET request for students
@@ -74,11 +61,24 @@ class MapViewController: UIViewController {
         
     }
     
+    private func addStudentsAnnotations() {
+        for student in students {
+            let coordinate = CLLocationCoordinate2D(latitude: student.latitude, longitude: student.longitude)
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = coordinate
+            annotation.title = "\(student.firstName) \(student.lastName)"
+            annotation.subtitle = student.mediaURL
+            
+            annotations.append(annotation)
+        }
+        self.mapView.addAnnotations(annotations)
+    }
+    
 }
 
 // MARK: - Extensions
 
-extension MapViewController: MKMapViewDelegate {
+extension MapViewController: MKMapViewDelegate, DataRefreshable {
     
     // MARK: - MKMapViewDelegate methods
     
@@ -104,6 +104,14 @@ extension MapViewController: MKMapViewDelegate {
                 UIApplication.shared.open(URL(string: url)!, options: [:], completionHandler: nil)
             }
         }
+    }
+    
+    // MARK: - DataRefreshable protocol stubs
+    
+    func refreshData() {
+        mapView.removeAnnotations(mapView.annotations)
+        fetchStudents()
+        addStudentsAnnotations()
     }
     
 }

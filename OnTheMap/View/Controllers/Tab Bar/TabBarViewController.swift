@@ -5,6 +5,8 @@
 //  Created by André Sanches Bocato on 13/02/19.
 //  Copyright © 2019 André Sanches Bocato. All rights reserved.
 //
+// @TODO: inform user if download fails
+// @TODO: show downloaded data in mapview and tableview. actually returning empty arrays
 
 import Foundation
 import UIKit
@@ -25,17 +27,17 @@ class TabBarViewController: UITabBarController {
         // end of DELETE request
         
         dismiss(animated: true, completion: nil)
-        
     }
     
     @IBAction private func refreshBarButtonDidReceiveTouchUpInside(_ sender: Any) {
-        // @TODO: refresh mapView data
-        // @TODO: refresh tableView data
+        if let controller = selectedViewController as? DataRefreshable {
+            controller.refreshData()
+        }
     }
     
     // MARK: - Helper Functions
     
-    // repeated code
+    // @TODO: Refactor, repeated code
     private func displayError(_ error: Error, description: String? = nil) {
         if let description = description {
             print(description + "\nError:\n\(error)")
@@ -43,12 +45,5 @@ class TabBarViewController: UITabBarController {
             print("An unknown error occurred. Error:\n\(error)")
         }
     }
-    
-    private func relodData() {
-        
-     
-        
-    }
-    
     
 }

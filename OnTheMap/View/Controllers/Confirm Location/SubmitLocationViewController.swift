@@ -10,22 +10,22 @@ import Foundation
 import UIKit
 import MapKit
 
-class ConfirmLocationViewController: UIViewController {
+class SubmitLocationViewController: UIViewController {
 
     // MARK: - IBOutlets
     
     @IBOutlet private weak var mapView: MKMapView!
-    @IBOutlet private weak var finishButton: UIButton!
+    @IBOutlet private weak var submitButton: UIButton!
     
     // MARK: - Properties
     
     let currentUser = CurrentSessionData.shared.user!
     var currentStudentObjectId: String?
     
-    var location = ""
-    var link = ""
-    var latitude = -19.932943
-    var longitude = -43.939689
+    var location = ""               // receiving data from InformationPostingViewController
+    var link = ""                   // receiving data from InformationPostingViewController
+    var latitude = Double()         // receiving data from InformationPostingViewController
+    var longitude = Double()        // receiving data from InformationPostingViewController
     
     var studentDoesExist = Bool()
     
@@ -34,10 +34,14 @@ class ConfirmLocationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // @TODO: receive latitude and longitude from previous screen then send map to this coordinate pair
-        
         mapView.delegate = self
-        FunctionsHelper.configureButton(finishButton)
+        
+        // @TODO: send mapView to (latitude, longitude) received from InformationPostingViewController
+        let receivedCoordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        mapView.setCenter(receivedCoordinates, animated: true)
+        
+        // refactor: create new button type
+        submitButton.layer.cornerRadius = 15
     }
     
     // MARK: - IBActions
@@ -88,7 +92,7 @@ class ConfirmLocationViewController: UIViewController {
     
     // MARK: - Helper Functions
     
-    // repeated code
+    // @TODO: Refactor, repeated code
     private func displayError(_ error: Error,
                               description: String? = nil) {
         
@@ -123,7 +127,7 @@ class ConfirmLocationViewController: UIViewController {
 
 // MARK: - Extensions
 
-extension ConfirmLocationViewController: MKMapViewDelegate {
+extension SubmitLocationViewController: MKMapViewDelegate {
     
     // MARK: - MKMapViewDelegate methods
     

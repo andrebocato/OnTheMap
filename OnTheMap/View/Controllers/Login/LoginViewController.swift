@@ -5,6 +5,7 @@
 //  Created by André Sanches Bocato on 13/02/19.
 //  Copyright © 2019 André Sanches Bocato. All rights reserved.
 //
+// @TODO: send alert when login fails
 
 import Foundation
 import UIKit
@@ -34,7 +35,7 @@ class LoginViewController: UIViewController {
             _ = textFieldShouldReturn(usernameTextField)
             _ = textFieldShouldReturn(passwordTextField)
             
-            self.doLogin()
+            doLogin()
         }
     }
     
@@ -53,7 +54,8 @@ class LoginViewController: UIViewController {
         usernameTextField.delegate = self
         passwordTextField.delegate = self
         
-        FunctionsHelper.configureButton(loginButton)
+        // refactor: create new button type
+        loginButton.layer.cornerRadius = 15
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -78,7 +80,7 @@ class LoginViewController: UIViewController {
                         self.performSegue(withIdentifier: "CompleteLoginSegue", sender: self)
                     }
                 }, failure: { (optionalError) in
-                    // repeated code
+                    // @TODO: Refactor, repeated code
                     if let error = optionalError {
                         self.displayError(error, description: "Failed to GET userId.")
                     }
@@ -87,7 +89,7 @@ class LoginViewController: UIViewController {
                 // end of GET userId request
             }
         }, failure: { (optionalError) in
-            // repeated code
+            // @TODO: Refactor, repeated code
             if let error = optionalError {
                 self.displayError(error, description: "Failed to POST login session.")
             }
@@ -96,7 +98,7 @@ class LoginViewController: UIViewController {
         // end of POST session request
     }
     
-    // repeated code
+    // @TODO: Refactor, repeated code
     private func displayError(_ error: Error,
                               description: String? = nil) {
         
@@ -128,10 +130,13 @@ extension LoginViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.endEditing(true)
+        
         if textField == usernameTextField {
             passwordTextField.becomeFirstResponder()
         } else { // textField == passwordTextField
-            doLogin()
+            if textField.text != "" {
+                doLogin()
+            }
         }
         
         return true
