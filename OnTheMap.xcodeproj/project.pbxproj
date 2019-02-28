@@ -36,6 +36,7 @@
 		6547C3EF2225BCF200EECC01 /* PostStudentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6547C3EE2225BCF200EECC01 /* PostStudentResponse.swift */; };
 		6550575A222474E2001267CF /* CurrentSessionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65505759222474E2001267CF /* CurrentSessionData.swift */; };
 		6550575F22248287001267CF /* PutStudentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6550575E22248287001267CF /* PutStudentResponse.swift */; };
+		E55E320022284A3000921607 /* DataRefreshableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55E31FF22284A3000921607 /* DataRefreshableProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +92,7 @@
 		6547C3EE2225BCF200EECC01 /* PostStudentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostStudentResponse.swift; sourceTree = "<group>"; };
 		65505759222474E2001267CF /* CurrentSessionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentSessionData.swift; sourceTree = "<group>"; };
 		6550575E22248287001267CF /* PutStudentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PutStudentResponse.swift; sourceTree = "<group>"; };
+		E55E31FF22284A3000921607 /* DataRefreshableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRefreshableProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,8 +143,9 @@
 		1413EDA822144DDB007D27BB /* OnTheMap */ = {
 			isa = PBXGroup;
 			children = (
-				145A582D221EE4EB006385C1 /* Service */,
 				145A582B221EE4A1006385C1 /* Application */,
+				E55E31FD22284A0900921607 /* Conveniences */,
+				145A582D221EE4EB006385C1 /* Services */,
 				14DE9BD1221492C3001BBC3C /* Model */,
 				14DE9BCF2214927D001BBC3C /* View */,
 				145A582C221EE4AD006385C1 /* Assets */,
@@ -324,14 +327,14 @@
 			path = Assets;
 			sourceTree = "<group>";
 		};
-		145A582D221EE4EB006385C1 /* Service */ = {
+		145A582D221EE4EB006385C1 /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				65505758222474C9001267CF /* Current Session Data */,
 				145A57FF221B1FFD006385C1 /* APIs */,
 				145A57FC221B1C0F006385C1 /* Helpers */,
 			);
-			path = Service;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		14DE9BCF2214927D001BBC3C /* View */ = {
@@ -366,6 +369,22 @@
 				65505759222474E2001267CF /* CurrentSessionData.swift */,
 			);
 			path = "Current Session Data";
+			sourceTree = "<group>";
+		};
+		E55E31FD22284A0900921607 /* Conveniences */ = {
+			isa = PBXGroup;
+			children = (
+				E55E31FE22284A2000921607 /* Protocols */,
+			);
+			path = Conveniences;
+			sourceTree = "<group>";
+		};
+		E55E31FE22284A2000921607 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				E55E31FF22284A3000921607 /* DataRefreshableProtocol.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -516,6 +535,7 @@
 				1413EDDD2214516C007D27BB /* MapViewController.swift in Sources */,
 				145A580E221C43B6006385C1 /* Account.swift in Sources */,
 				1413EDDF22145459007D27BB /* StudentsListViewController.swift in Sources */,
+				E55E320022284A3000921607 /* DataRefreshableProtocol.swift in Sources */,
 				6550575A222474E2001267CF /* CurrentSessionData.swift in Sources */,
 				145A5815221C93F2006385C1 /* Student.swift in Sources */,
 				145A580A221B6DEA006385C1 /* Session.swift in Sources */,

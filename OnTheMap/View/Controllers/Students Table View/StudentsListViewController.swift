@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class StudentsListViewController: UIViewController {
+class StudentsListViewController: UIViewController, DataRefreshable {
     
     // MARK: - IBOutlets
     
@@ -17,7 +17,11 @@ class StudentsListViewController: UIViewController {
     
     // MARK: - Properties
     
-    private var students: [Student]?
+    private var students: [Student]? {
+        didSet {
+            studentsTableView.reloadData()
+        }
+    }
     
     // MARK: - Life Cycle
     
@@ -55,6 +59,10 @@ class StudentsListViewController: UIViewController {
             }
         } // end of GET students request
         
+    }
+    
+    func refreshData() {
+        fetchStudents()
     }
     
 }

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, DataRefreshable {
 
     // MARK: - IBOutlets
     
@@ -25,24 +25,7 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
-        
-        fetchStudents()
-        
-        var annotations = [MKAnnotation]()
-        
-        for student in students {
-            let coordinate = CLLocationCoordinate2D(latitude: student.latitude, longitude: student.longitude)
-            
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = coordinate
-            annotation.title = "\(student.firstName) \(student.lastName)"
-            annotation.subtitle = student.mediaURL
-            
-            annotations.append(annotation)
-        }
-        
-        self.mapView.addAnnotations(annotations)
-        
+        loadMapData()
     }
     
     // MARK: - Helper Functions
@@ -59,19 +42,43 @@ class MapViewController: UIViewController {
     }
     
     // repeated code
-    private func fetchStudents() {
+    private func fetchStudents(completion: ((_ error: Error?) -> Void)? = nil) {
         
         // GET request for students
         ParseClient.getStudentsRequest(limit: 100, skip: 100, order: "-updatedAt", success: { (getStudentsResponse) in
             if let studentsArrayFromResponse = getStudentsResponse?.results {
                 self.students = studentsArrayFromResponse
+                completion?(nil)
             }
         }) { (optionalError) in
             if let error = optionalError {
                 self.displayError(error, description: "Failed to GET students.")
+                completion?(error)
             }
         } // end of GET students request
         
+    }
+    
+    private func loadMapData() {
+        fetchStudents() { [weak self] _ in
+            guard let self = self else { return }
+            let annotations = self.students.map { self.buildAnnotation(with: $0) }
+            self.mapView.addAnnotations(annotations)
+        }
+    }
+    
+    private func buildAnnotation(with student: Student) -> MKPointAnnotation {
+        let coordinate = CLLocationCoordinate2D(latitude: student.latitude, longitude: student.longitude)
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinate
+        annotation.title = "\(student.firstName) \(student.lastName)"
+        annotation.subtitle = student.mediaURL
+        return annotation
+    }
+    
+    func refreshData() {
+        mapView.removeAnnotations(mapView.annotations)
+        loadMapData()
     }
     
 }

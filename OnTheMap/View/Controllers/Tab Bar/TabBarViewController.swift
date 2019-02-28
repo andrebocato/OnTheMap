@@ -29,8 +29,8 @@ class TabBarViewController: UITabBarController {
     }
     
     @IBAction private func refreshBarButtonDidReceiveTouchUpInside(_ sender: Any) {
-        // @TODO: refresh mapView data
-        // @TODO: refresh tableView data
+        guard let refreshableController = selectedViewController as? DataRefreshable else { return }
+        refreshableController.refreshData()
     }
     
     // MARK: - Helper Functions
