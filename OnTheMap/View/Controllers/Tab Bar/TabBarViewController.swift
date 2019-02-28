@@ -5,13 +5,12 @@
 //  Created by André Sanches Bocato on 13/02/19.
 //  Copyright © 2019 André Sanches Bocato. All rights reserved.
 //
-// @TODO: implement 'logging out' activityIndicatorView
 
 import Foundation
 import UIKit
 
 class TabBarViewController: UITabBarController {
-
+    
     // MARK: - IBActions
     
     @IBAction private func logoutBarButtonDidReceiveTouchUpInside(_ sender: Any) {
@@ -24,12 +23,14 @@ class TabBarViewController: UITabBarController {
             }
         })
         // end of DELETE request
+        
+        dismiss(animated: true, completion: nil)
+        
     }
     
     @IBAction private func refreshBarButtonDidReceiveTouchUpInside(_ sender: Any) {
-        // @TODO: refresh tableview content
-        // @TODO: refresh mapview content
-        print("refresh button pressed")
+        // @TODO: refresh mapView data
+        // @TODO: refresh tableView data
     }
     
     // MARK: - Helper Functions
@@ -42,5 +43,12 @@ class TabBarViewController: UITabBarController {
             print("An unknown error occurred. Error:\n\(error)")
         }
     }
+    
+    private func relodData() {
+        
+     
+        
+    }
+    
     
 }

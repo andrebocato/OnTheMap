@@ -29,7 +29,6 @@ class InformationPostingViewController: UIViewController {
         FunctionsHelper.checkForEmptyText(linkTextField, emptyLinkLabel)
         
         if (locationTextField.text != "") && (linkTextField.text != "") {
-            
             performSegue(withIdentifier: "ConfirmLocationSegue", sender: self)
         }
         
@@ -50,6 +49,8 @@ class InformationPostingViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is ConfirmLocationViewController {
             if let vc = segue.destination as? ConfirmLocationViewController {
+                // @TODO: send location to the next screen mapView
+                
                 vc.location = locationTextField.text!
                 vc.link = linkTextField.text!
             }

@@ -5,8 +5,6 @@
 //  Created by André Sanches Bocato on 13/02/19.
 //  Copyright © 2019 André Sanches Bocato. All rights reserved.
 //
-// @TODO: fix login
-// @TODO: fix activityIndicatorView. it doesn't stop its animation or gets hidden!!!
 
 import Foundation
 import UIKit
@@ -58,6 +56,11 @@ class LoginViewController: UIViewController {
         FunctionsHelper.configureButton(loginButton)
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        self.usernameTextField.text = ""
+        self.passwordTextField.text = ""
+    }
+    
     // MARK: - Helper Functions
     
     private func doLogin() {
@@ -72,7 +75,6 @@ class LoginViewController: UIViewController {
                     CurrentSessionData.shared.user = userFromResponse
                     DispatchQueue.main.async {
                         self.configureUIForRequestInProgress(false)
-                        
                         self.performSegue(withIdentifier: "CompleteLoginSegue", sender: self)
                     }
                 }, failure: { (optionalError) in
@@ -128,6 +130,8 @@ extension LoginViewController: UITextFieldDelegate {
         textField.endEditing(true)
         if textField == usernameTextField {
             passwordTextField.becomeFirstResponder()
+        } else { // textField == passwordTextField
+            doLogin()
         }
         
         return true

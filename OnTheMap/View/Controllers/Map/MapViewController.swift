@@ -18,7 +18,7 @@ class MapViewController: UIViewController {
     
     // MARK: - Properties
     
-    private var students: [Student]?
+    private var students = [Student]()
     
     // MARK: - Life Cycle
     
@@ -26,16 +26,22 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         mapView.delegate = self
         
-        // GET request for students
-        ParseClient.getStudentsRequest(limit: 100, skip: 100, order: "-updatedAt", success: { (getStudentsResponse) in
-            if let studentsArrayFromResponse = getStudentsResponse?.results {
-                self.students = studentsArrayFromResponse
-            }
-        }) { (optionalError) in
-            if let error = optionalError {
-                self.displayError(error, description: "Failed to GET students.")
-            }
-        } // end of GET students request
+        fetchStudents()
+        
+        var annotations = [MKAnnotation]()
+        
+        for student in students {
+            let coordinate = CLLocationCoordinate2D(latitude: student.latitude, longitude: student.longitude)
+            
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = coordinate
+            annotation.title = "\(student.firstName) \(student.lastName)"
+            annotation.subtitle = student.mediaURL
+            
+            annotations.append(annotation)
+        }
+        
+        self.mapView.addAnnotations(annotations)
         
     }
     
@@ -52,6 +58,22 @@ class MapViewController: UIViewController {
         }
     }
     
+    // repeated code
+    private func fetchStudents() {
+        
+        // GET request for students
+        ParseClient.getStudentsRequest(limit: 100, skip: 100, order: "-updatedAt", success: { (getStudentsResponse) in
+            if let studentsArrayFromResponse = getStudentsResponse?.results {
+                self.students = studentsArrayFromResponse
+            }
+        }) { (optionalError) in
+            if let error = optionalError {
+                self.displayError(error, description: "Failed to GET students.")
+            }
+        } // end of GET students request
+        
+    }
+    
 }
 
 // MARK: - Extensions
@@ -60,6 +82,28 @@ extension MapViewController: MKMapViewDelegate {
     
     // MARK: - MKMapViewDelegate methods
     
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let reuseId = "pin"
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+        
+        if let pin = pinView {
+            pin.annotation = annotation
+        } else {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView?.canShowCallout = true
+            pinView?.pinTintColor = .red
+            pinView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        }
     
+        return pinView
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if control == view.rightCalloutAccessoryView {
+            if let url = view.annotation?.subtitle! {
+                UIApplication.shared.open(URL(string: url)!, options: [:], completionHandler: nil)
+            }
+        }
+    }
     
 }

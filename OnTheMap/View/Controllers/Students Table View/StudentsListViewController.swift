@@ -13,7 +13,7 @@ class StudentsListViewController: UIViewController {
     
     // MARK: - IBOutlets
     
-    @IBOutlet private weak var studentsTableView: UITableView!
+    @IBOutlet weak var studentsTableView: UITableView!
     
     // MARK: - Properties
     
@@ -24,16 +24,7 @@ class StudentsListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // @TODO: GET request for students
-        ParseClient.getStudentsRequest(limit: 100, skip: 100, order: "-updatedAt", success: { (getStudentsResponse) in
-            if let studentsArrayFromResponse = getStudentsResponse?.results {
-                self.students = studentsArrayFromResponse
-            }
-        }) { (optionalError) in
-            if let error = optionalError {
-                self.displayError(error, description: "Failed to GET students.")
-            }
-        }
+        fetchStudents()
     
     }
 
@@ -48,6 +39,22 @@ class StudentsListViewController: UIViewController {
         } else {
             print("An unknown error occurred. Error:\n\(error)")
         }
+    }
+    
+    // repeated code
+    private func fetchStudents() {
+        
+        // GET request for students
+        ParseClient.getStudentsRequest(limit: 100, skip: 100, order: "-updatedAt", success: { (getStudentsResponse) in
+            if let studentsArrayFromResponse = getStudentsResponse?.results {
+                self.students = studentsArrayFromResponse
+            }
+        }) { (optionalError) in
+            if let error = optionalError {
+                self.displayError(error, description: "Failed to GET students.")
+            }
+        } // end of GET students request
+        
     }
     
 }
@@ -92,7 +99,7 @@ extension StudentsListViewController: UITableViewDelegate, UITableViewDataSource
                 let student = students[indexPath.row]
                 cell.textLabel?.numberOfLines = 2
                 cell.textLabel?.text = student.firstName + student.lastName + "\n" + student.mediaURL
-                //            cell.imageView?.image = (udacity pin image goes here)
+//                cell.imageView?.image = (udacity pin image goes here)
             }
         }
         return cell

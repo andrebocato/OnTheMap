@@ -81,7 +81,7 @@ class ConfirmLocationViewController: UIViewController {
             } // end of POST request
         }
         
-        DispatchQueue.main.async {
+        DispatchQueue.main.async {            
             self.navigationController?.popToRootViewController(animated: true)
         }
     }
