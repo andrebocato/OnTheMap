@@ -23,20 +23,19 @@ class InformationPostingViewController: UIViewController {
     
     // MARK: - Properties
     
-    var latitude = Double()
-    var longitude = Double()
+    private var latitude = Double()
+    private var longitude = Double()
     
     // MARK: - IBActions
-
+    
     @IBAction private func confirmLocationButtonDidReceiveTouchUpInside(_ sender: Any) {
-        FunctionsHelper.checkForEmptyText(locationTextField, emptyLocationLabel)
-        FunctionsHelper.checkForEmptyText(linkTextField, emptyLinkLabel)
-        
-        if (locationTextField.text != "") && (linkTextField.text != "") {
-            // @TODO: check if response was ok
-            performSegue(withIdentifier: "ConfirmLocationSegue", sender: self)
+        validateEmptyInputs(textFields: [locationTextField, linkTextField], errorLabels: [emptyLocationLabel, emptyLinkLabel]) { (true) in
+            if (self.latitude, self.longitude) != (0, 0) {
+                self.performSegue(withIdentifier: "ConfirmLocationSegue", sender: self)
+            } else {
+                Alerthelper.showErrorAlert(inController: self, withMessage: "Invalid latitude or longitude values.")
+            }
         }
-        
     }
     
     // MARK: - Life Cycle
@@ -74,8 +73,8 @@ class InformationPostingViewController: UIViewController {
                                  error: Error?) {
         
         if let error = error {
-            print("Unable to Forward Geocode Address. \n\(error)")
-            // @TODO: send alert "Unable to find location address"
+            Alerthelper.showErrorAlert(inController: self, withMessage: "Unable to forward Geocode Address.")
+            debugPrint("ERROR: \(error)")
         } else {
             var location: CLLocation?
             
@@ -92,6 +91,32 @@ class InformationPostingViewController: UIViewController {
         }
     }
     
+    // @TODO: Refactor, repeated code
+    private func isValidInput(_ textField: UITextField) -> Bool {
+        guard let input = textField.text, !input.isEmpty else {
+            return false
+        }
+        return true
+    }
+    
+    // @TODO: Refactor, repeated code
+    private func validateEmptyInputs(textFields: [UITextField],
+                             errorLabels: [UILabel],
+                             completion: ((Bool) -> Void)) {
+        guard !(textFields.count == errorLabels.count) else { return }
+        
+        var validFields = 0
+        for i in 0...textFields.count {
+            if !isValidInput(textFields[i]) {
+                errorLabels[i].text = "This field must not be empty."
+            } else {
+                validFields += 1
+            }
+        }
+        
+        completion(validFields == textFields.count)
+    }
+    
 }
 
 // MARK: - Extensions
@@ -104,21 +129,6 @@ extension InformationPostingViewController: UITextFieldDelegate {
             linkTextField.becomeFirstResponder()
         }
         return true
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        // @TODO: refactor. there must be a better way to do this
-        switch textField {
-        case locationTextField:
-            if let label = emptyLocationLabel {
-                FunctionsHelper.checkForEmptyText(textField, label)
-            }
-        case linkTextField:
-            if let label = emptyLinkLabel {
-                FunctionsHelper.checkForEmptyText(textField, label)
-            }
-        default: return
-        }
     }
     
 }

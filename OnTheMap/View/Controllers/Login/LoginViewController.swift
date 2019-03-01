@@ -5,7 +5,6 @@
 //  Created by André Sanches Bocato on 13/02/19.
 //  Copyright © 2019 André Sanches Bocato. All rights reserved.
 //
-// @TODO: send alert when login fails
 
 import Foundation
 import UIKit
@@ -26,17 +25,11 @@ class LoginViewController: UIViewController {
     // MARK: - IBActions
     
     @IBAction private func loginButtonDidReceiveTouchUpInside(_ sender: Any) {
- 
-        FunctionsHelper.checkForEmptyText(usernameTextField, emptyUsernameLabel)
-        FunctionsHelper.checkForEmptyText(passwordTextField, emptyPasswordLabel)
-        
-        if (usernameTextField.text != "") && (passwordTextField.text != "") {
-            // @TODO: Refactor: there should be a better way to do this
-            _ = textFieldShouldReturn(usernameTextField)
-            _ = textFieldShouldReturn(passwordTextField)
-            
+        validateEmptyInputs(textFields: [usernameTextField, passwordTextField], errorLabels: [emptyUsernameLabel, emptyPasswordLabel]) { (true) in
             doLogin()
         }
+        
+        
     }
     
     @IBAction private func signUpButtonDidReceiveTouchUpInside(_ sender: Any) {
@@ -66,9 +59,10 @@ class LoginViewController: UIViewController {
     // MARK: - Helper Functions
     
     private func doLogin() {
-        self.configureUIForRequestInProgress(true)
+        configureUIForRequestInProgress(true)
         
-        let username = usernameTextField.text!, password = passwordTextField.text!
+        let username = usernameTextField.text!
+        let password = passwordTextField.text!
         
         UdacityClient.postSessionRequest(withUsername: username, password: password, success: { (postSessionResponse) in
             
@@ -80,7 +74,6 @@ class LoginViewController: UIViewController {
                         self.performSegue(withIdentifier: "CompleteLoginSegue", sender: self)
                     }
                 }, failure: { (optionalError) in
-                    // @TODO: Refactor, repeated code
                     if let error = optionalError {
                         Alerthelper.showErrorAlert(inController: self, withMessage: "Login failed.")
                         self.displayError(error, description: "Failed to GET userId.")
@@ -90,7 +83,6 @@ class LoginViewController: UIViewController {
                 // end of GET userId request
             }
         }, failure: { (optionalError) in
-            // @TODO: Refactor, repeated code
             if let error = optionalError {
                 Alerthelper.showErrorAlert(inController: self, withMessage: "Login failed.")
                 self.displayError(error, description: "Failed to POST login session.")
@@ -111,7 +103,6 @@ class LoginViewController: UIViewController {
         }
     }
     
-    // @TODO: refactor. could be better
     private func configureUIForRequestInProgress(_ inProgress: Bool) {
         if inProgress == true {
             activityIndicatorView.startAnimating()
@@ -122,6 +113,32 @@ class LoginViewController: UIViewController {
             activityIndicatorView.isHidden = true
             loginButton.isEnabled = true
         }
+    }
+    
+    // @TODO: Refactor, repeated code
+    private func isValidInput(_ textField: UITextField) -> Bool {
+        guard let input = textField.text, !input.isEmpty else {
+            return false
+        }
+        return true
+    }
+    
+    // @TODO: Refactor, repeated code
+    private func validateEmptyInputs(textFields: [UITextField],
+                             errorLabels: [UILabel],
+                             completion: ((Bool) -> Void)) {
+        guard !(textFields.count == errorLabels.count) else { return }
+        
+        var validFields = 0
+        for i in 0...textFields.count {
+            if !isValidInput(textFields[i]) {
+                errorLabels[i].text = "This field must not be empty."
+            } else {
+                validFields += 1
+            }
+        }
+        
+        completion(validFields == textFields.count)
     }
     
 }
@@ -140,28 +157,12 @@ extension LoginViewController: UITextFieldDelegate {
                 doLogin()
             }
         }
-        
         return true
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         passwordTextField.isSecureTextEntry = true
         return true
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        // @TODO: refactor. there must be a better way to do this
-        switch textField {
-        case usernameTextField:
-            if let label = emptyUsernameLabel {
-                FunctionsHelper.checkForEmptyText(textField, label)
-            }
-        case passwordTextField:
-            if let label = emptyPasswordLabel {
-                FunctionsHelper.checkForEmptyText(textField, label)
-            }
-        default: return
-        }
     }
     
 }
