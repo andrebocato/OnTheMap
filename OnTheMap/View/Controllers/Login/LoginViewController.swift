@@ -82,6 +82,7 @@ class LoginViewController: UIViewController {
                 }, failure: { (optionalError) in
                     // @TODO: Refactor, repeated code
                     if let error = optionalError {
+                        Alerthelper.showErrorAlert(inController: self, withMessage: "Login failed.")
                         self.displayError(error, description: "Failed to GET userId.")
                     }
                     self.configureUIForRequestInProgress(false)
@@ -91,6 +92,7 @@ class LoginViewController: UIViewController {
         }, failure: { (optionalError) in
             // @TODO: Refactor, repeated code
             if let error = optionalError {
+                Alerthelper.showErrorAlert(inController: self, withMessage: "Login failed.")
                 self.displayError(error, description: "Failed to POST login session.")
             }
             self.configureUIForRequestInProgress(false)
@@ -103,9 +105,9 @@ class LoginViewController: UIViewController {
                               description: String? = nil) {
         
         if let description = description {
-            print(description + "\nError:\n\(error)")
+            print(description + "\nError: \(error)")
         } else {
-            print("An unknown error occurred. Error:\n\(error)")
+            print("An unknown error occurred. Error: \(error)")
         }
     }
     

@@ -21,12 +21,14 @@ class TabBarViewController: UITabBarController {
             // should go back to login view
         }, failure: { (optionalError) in
             if let error = optionalError {
+                Alerthelper.showErrorAlert(inController: self, withMessage: "Logout failed.")
                 self.displayError(error, description: "Logout request failed.")
             }
-        })
-        // end of DELETE request
+        }) // end of DELETE request
         
-        dismiss(animated: true, completion: nil)
+        if let controller = selectedViewController {
+            controller.dismiss(animated: true, completion: nil)
+        }
     }
     
     @IBAction private func refreshBarButtonDidReceiveTouchUpInside(_ sender: Any) {

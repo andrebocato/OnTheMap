@@ -195,14 +195,6 @@
 			path = Storyboards;
 			sourceTree = "<group>";
 		};
-		145A57FC221B1C0F006385C1 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				145A57FD221B1C61006385C1 /* RequestHelper.swift */,
-			);
-			path = Helpers;
-			sourceTree = "<group>";
-		};
 		145A57FF221B1FFD006385C1 /* APIs */ = {
 			isa = PBXGroup;
 			children = (
@@ -334,7 +326,6 @@
 			children = (
 				65505758222474C9001267CF /* Current Session Data */,
 				145A57FF221B1FFD006385C1 /* APIs */,
-				145A57FC221B1C0F006385C1 /* Helpers */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -385,6 +376,7 @@
 		652B90B2222874B30062B6C9 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				145A57FD221B1C61006385C1 /* RequestHelper.swift */,
 				652B90A922284CFF0062B6C9 /* AlertHelper.swift */,
 			);
 			path = Helpers;
@@ -730,13 +722,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Q6D8LQAG8B;
+				DEVELOPMENT_TEAM = 8X682DW69D;
 				INFOPLIST_FILE = OnTheMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "br.com.bocato.OnTheMap-Dev";
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.bocato.OnTheMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -748,13 +740,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Q6D8LQAG8B;
+				DEVELOPMENT_TEAM = 8X682DW69D;
 				INFOPLIST_FILE = OnTheMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "br.com.bocato.OnTheMap-Dev";
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.bocato.OnTheMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

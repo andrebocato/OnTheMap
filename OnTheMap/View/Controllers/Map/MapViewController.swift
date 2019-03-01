@@ -55,6 +55,7 @@ class MapViewController: UIViewController {
             }
         }) { (optionalError) in
             if let error = optionalError {
+                Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to download students data.")
                 self.displayError(error, description: "Failed to GET students.")
             }
         } // end of GET students request

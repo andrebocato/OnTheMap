@@ -57,6 +57,7 @@ class SubmitLocationViewController: UIViewController {
                 // @TODO: update student parameters (mapstring, mediaURL, latitude, longitude)
             }) { (optionalError) in
                 if let error = optionalError {
+                    Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to update student data.")
                     self.displayError(error, description: "Failed to PUT student.")
                 }
             } // end of PUT request
@@ -80,6 +81,7 @@ class SubmitLocationViewController: UIViewController {
                 }
             }) { (optionalError) in
                 if let error = optionalError {
+                    Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to post student data.")
                     self.displayError(error, description: "Failed to POST student.")
                 }
             } // end of POST request
@@ -118,6 +120,7 @@ class SubmitLocationViewController: UIViewController {
             
         }) { (optionalError) in
             if let error = optionalError {
+                Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to download student data.")
                 self.displayError(error, description: "Failed to GET student.")
             }
         } // end of GET request

@@ -11,7 +11,6 @@ import Foundation
 // MARK: - Enums
 
 enum HTTPMethod: String {
-    
     case get
     case post
     case delete
@@ -20,7 +19,6 @@ enum HTTPMethod: String {
     var name: String {
         return self.rawValue.uppercased()
     }
-    
 }
 
 enum API {
