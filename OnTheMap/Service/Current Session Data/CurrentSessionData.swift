@@ -10,6 +10,11 @@ import Foundation
 
 class CurrentSessionData {
     
+    // MARK: - Intialization
+    
+    private init() { }
+    
+    
     // MARK: - Shared Instance
     
     static let shared = CurrentSessionData()

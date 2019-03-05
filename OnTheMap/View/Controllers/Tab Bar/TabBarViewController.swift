@@ -16,36 +16,20 @@ class TabBarViewController: UITabBarController {
     // MARK: - IBActions
     
     @IBAction private func logoutBarButtonDidReceiveTouchUpInside(_ sender: Any) {
-        UdacityClient.deleteSesionRequest(success: { (logoutResponse) in
+        UdacityClient.deleteSesionRequest(success: { [weak self] _ in
             CurrentSessionData.shared.clearSessionData()
-            // should go back to login view
-        }, failure: { (optionalError) in
+            self?.selectedViewController?.dismiss(animated: true, completion: nil)
+        }, failure: { [weak self] (optionalError) in
+            guard let self = self else { return }
             if let error = optionalError {
                 Alerthelper.showErrorAlert(inController: self, withMessage: "Logout failed.")
-                self.displayError(error, description: "Logout request failed.")
+                self.logError(error, description: "Logout request failed.")
             }
         }) // end of DELETE request
-        
-        if let controller = selectedViewController {
-            controller.dismiss(animated: true, completion: nil)
-        }
     }
     
     @IBAction private func refreshBarButtonDidReceiveTouchUpInside(_ sender: Any) {
-        if let controller = selectedViewController as? DataRefreshable {
-            controller.refreshData()
-        }
-    }
-    
-    // MARK: - Helper Functions
-    
-    // @TODO: Refactor, repeated code
-    private func displayError(_ error: Error, description: String? = nil) {
-        if let description = description {
-            print(description + "\nError:\n\(error)")
-        } else {
-            print("An unknown error occurred. Error:\n\(error)")
-        }
+        (selectedViewController as? DataRefreshable)?.refreshData()
     }
     
 }

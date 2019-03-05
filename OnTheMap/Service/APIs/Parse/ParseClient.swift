@@ -48,20 +48,13 @@ class ParseClient {
                 return
             }
             
-            // take care of the response and check for errors
-            guard let response = optionalResponse,
-                let data = try? JSONSerialization.data(withJSONObject: response, options: .prettyPrinted),
-                let serializedResponse = try? JSONDecoder().decode(GetStudentsResponse.self, from: data) else {
-                    
-                let userInfo = [NSLocalizedDescriptionKey: "Empty response"]
-                let error = NSError(domain: "ParseClient", code: 1, userInfo: userInfo)
+            do {
+                let serializedResponse = try RequestHelper.serializeResponse(optionalResponse, ofType: GetStudentsResponse.self)
+                success(serializedResponse)
+            } catch {
                 failure(error)
-                    
-                return
             }
             
-            // handle successfully serialized response
-            success(serializedResponse)
         }
         
     }
@@ -80,19 +73,13 @@ class ParseClient {
                 return
             }
         
-            guard let response = optionalResponse,
-                let data = try? JSONSerialization.data(withJSONObject: response, options: .prettyPrinted),
-                let serializedResponse = try? JSONDecoder().decode(GetStudentResponse.self, from: data) else {
-                
-                let userInfo = [NSLocalizedDescriptionKey: "Empty response"]
-                let error = NSError(domain: "ParseClient", code: 1, userInfo: userInfo)
+            do {
+                let serializedResponse = try RequestHelper.serializeResponse(optionalResponse, ofType: GetStudentResponse.self)
+                success(serializedResponse)
+            } catch {
                 failure(error)
-                
-                return
             }
             
-            // handle successfully serialized response
-            success(serializedResponse)
         }
     }
     
@@ -108,19 +95,13 @@ class ParseClient {
                 return
             }
             
-            guard let response = optionalResponse,
-                let data = try? JSONSerialization.data(withJSONObject: response, options: .prettyPrinted),
-                let serializedResponse = try? JSONDecoder().decode(PostStudentResponse.self, from: data) else {
-                    
-                    let userInfo = [NSLocalizedDescriptionKey: "Empty response"]
-                    let error = NSError(domain: "ParseClient", code: 1, userInfo: userInfo)
-                    failure(error)
-                    
-                    return
+            do {
+                let serializedResponse = try RequestHelper.serializeResponse(optionalResponse, ofType: PostStudentResponse.self)
+                success(serializedResponse)
+            } catch {
+                failure(error)
             }
-            
-            // handle successfully serialized response
-            success(serializedResponse)
+        
         }
     }
     
@@ -138,19 +119,13 @@ class ParseClient {
                 return
             }
             
-            guard let response = optionalResponse,
-                let data = try? JSONSerialization.data(withJSONObject: response, options: .prettyPrinted),
-                let serializedResponse = try? JSONDecoder().decode(PutStudentResponse.self, from: data) else {
-                    
-                    let userInfo = [NSLocalizedDescriptionKey: "Empty response"]
-                    let error = NSError(domain: "ParseClient", code: 1, userInfo: userInfo)
-                    failure(error)
-                    
-                    return
+            do {
+                let serializedResponse = try RequestHelper.serializeResponse(optionalResponse, ofType: PutStudentResponse.self)
+                success(serializedResponse)
+            } catch {
+                failure(error)
             }
             
-            // handle successfully serialized response
-            success(serializedResponse)
         }
     }
     

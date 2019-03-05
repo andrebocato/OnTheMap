@@ -14,65 +14,42 @@ class MapViewController: UIViewController {
 
     // MARK: - IBOutlets
     
-    @IBOutlet private weak var mapView: MKMapView!
-    
-    // MARK: - Properties
-    
-    private var students = [Student]()
-    private var annotations = [MKAnnotation]()
+    @IBOutlet private weak var mapView: MKMapView! {
+        didSet {
+            mapView.delegate = self // this could be set on the storyboard...
+        }
+    }
     
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        mapView.delegate = self
-        
-        fetchStudents()
-        addStudentsAnnotations()
-        
-    }
-    
-    // MARK: - Helper Functions
-    
-    // @TODO: Refactor, repeated code
-    private func displayError(_ error: Error,
-                              description: String? = nil) {
-        
-        if let description = description {
-            print(description + "\nError:\n\(error)")
-        } else {
-            print("An unknown error occurred. Error:\n\(error)")
-        }
+        loadMapData()
     }
     
     // @TODO: Refactor, repeated code
-    private func fetchStudents() {
-        
+    private func loadMapData() {
         // GET request for students
-        ParseClient.getStudentsRequest(limit: 100, skip: 100, order: "-updatedAt", success: { (getStudentsResponse) in
-            if let studentsArrayFromResponse = getStudentsResponse?.results {
-                self.students = studentsArrayFromResponse
-            }
-        }) { (optionalError) in
-            if let error = optionalError {
+        ParseClient.getStudentsRequest(limit: 100, skip: 100, order: "-updatedAt", success: { [weak self] (getStudentsResponse) in
+            guard let students = getStudentsResponse?.results else { return }
+            self?.createStudentsAnnotations(using: students)
+            }, failure: { [weak self] (optionalError) in
+                guard let self = self, let error = optionalError else { return }
                 Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to download students data.")
-                self.displayError(error, description: "Failed to GET students.")
-            }
-        } // end of GET students request
-        
+                self.logError(error, description: "Failed to GET students.")
+        }) // end of GET students request
     }
     
-    private func addStudentsAnnotations() {
-        for student in students {
+    private func createStudentsAnnotations(using students: [Student]) {
+        let annotations = students.map { (student) -> MKPointAnnotation in
             let coordinate = CLLocationCoordinate2D(latitude: student.latitude, longitude: student.longitude)
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
             annotation.title = "\(student.firstName) \(student.lastName)"
             annotation.subtitle = student.mediaURL
-            
-            annotations.append(annotation)
+            return annotation
         }
-        self.mapView.addAnnotations(annotations)
+        mapView.addAnnotations(annotations)
     }
     
 }
@@ -100,19 +77,18 @@ extension MapViewController: MKMapViewDelegate, DataRefreshable {
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        if control == view.rightCalloutAccessoryView {
-            if let url = view.annotation?.subtitle! {
-                UIApplication.shared.open(URL(string: url)!, options: [:], completionHandler: nil)
-            }
-        }
+        guard let annotationSubtitle = view.annotation?.subtitle,
+            let urlString = annotationSubtitle,
+            let url = URL(string: urlString),
+            control == view.rightCalloutAccessoryView else { return }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
     
     // MARK: - DataRefreshable protocol stubs
     
     func refreshData() {
         mapView.removeAnnotations(mapView.annotations)
-        fetchStudents()
-        addStudentsAnnotations()
+        loadMapData()
     }
     
 }

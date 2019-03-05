@@ -42,19 +42,13 @@ class UdacityClient {
                 return
             }
             
-            // take care of the response
-            guard let response = optionalResponse,
-                let data = try? JSONSerialization.data(withJSONObject: response, options: .prettyPrinted),
-                let serializedResponse = try? JSONDecoder().decode(SessionResponse.self, from: data) else {
-                
-                let userInfo = [NSLocalizedDescriptionKey: "Empty response"]
-                let error = NSError(domain: "UdacityClient", code: -1, userInfo: userInfo)
+            do {
+                let serializedResponse = try RequestHelper.serializeResponse(optionalResponse, ofType: SessionResponse.self)
+                success(serializedResponse)
+            } catch {
                 failure(error)
-                
-                return
             }
             
-            success(serializedResponse)
         }
     }
     
@@ -69,20 +63,13 @@ class UdacityClient {
                 return
             }
             
-            // serialize response
-            guard let response = optionalResponse,
-                let data = try? JSONSerialization.data(withJSONObject: response, options: .prettyPrinted),
-                let serializedResponse = try? JSONDecoder().decode(SessionResponse.self, from: data) else {
-                    
-                let userInfo = [NSLocalizedDescriptionKey: "Empty response"]
-                let error = NSError(domain: "UdacityClient", code: 1, userInfo: userInfo)
+            do {
+                let serializedResponse = try RequestHelper.serializeResponse(optionalResponse, ofType: SessionResponse.self)
+                success(serializedResponse)
+            } catch {
                 failure(error)
-                    
-                return
             }
             
-            // handle successfully serialized response
-            success(serializedResponse)
         }
     }
     

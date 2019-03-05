@@ -58,7 +58,7 @@ class SubmitLocationViewController: UIViewController {
             }) { (optionalError) in
                 if let error = optionalError {
                     Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to update student data.")
-                    self.displayError(error, description: "Failed to PUT student.")
+                    self.logError(error, description: "Failed to PUT student.")
                 }
             } // end of PUT request
             
@@ -82,7 +82,7 @@ class SubmitLocationViewController: UIViewController {
             }) { (optionalError) in
                 if let error = optionalError {
                     Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to post student data.")
-                    self.displayError(error, description: "Failed to POST student.")
+                    self.logError(error, description: "Failed to POST student.")
                 }
             } // end of POST request
         }
@@ -95,7 +95,7 @@ class SubmitLocationViewController: UIViewController {
     // MARK: - Helper Functions
     
     // @TODO: Refactor, repeated code
-    private func displayError(_ error: Error,
+    private func logError(_ error: Error,
                               description: String? = nil) {
         
         if let description = description {
@@ -121,7 +121,7 @@ class SubmitLocationViewController: UIViewController {
         }) { (optionalError) in
             if let error = optionalError {
                 Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to download student data.")
-                self.displayError(error, description: "Failed to GET student.")
+                self.logError(error, description: "Failed to GET student.")
             }
         } // end of GET request
     }

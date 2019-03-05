@@ -15,26 +15,40 @@ class InformationPostingViewController: UIViewController {
     // MARK: - IBOutlets
     
     @IBOutlet private weak var personLocationImageView: UIImageView!
-    @IBOutlet private weak var confirmLocationButton: UIButton!
-    @IBOutlet private weak var locationTextField: UITextField!
-    @IBOutlet private weak var linkTextField: UITextField!
+    @IBOutlet private weak var confirmLocationButton: UIButton! {
+        didSet {
+            confirmLocationButton.layer.cornerRadius = 15
+        }
+    }
+    @IBOutlet private weak var locationTextField: UITextField! {
+        didSet {
+            locationTextField.delegate = self
+        }
+    }
+    @IBOutlet private weak var linkTextField: UITextField! {
+        didSet {
+            linkTextField.delegate = self
+        }
+    }
     @IBOutlet private weak var emptyLocationLabel: UILabel!
     @IBOutlet private weak var emptyLinkLabel: UILabel!
     
     // MARK: - Properties
     
-    private var latitude = Double()
-    private var longitude = Double()
+    private var latitude: Double?
+    private var longitude: Double?
     
     // MARK: - IBActions
     
     @IBAction private func confirmLocationButtonDidReceiveTouchUpInside(_ sender: Any) {
-        validateEmptyInputs(textFields: [locationTextField, linkTextField], errorLabels: [emptyLocationLabel, emptyLinkLabel]) { (true) in
-            if (self.latitude, self.longitude) != (0, 0) {
-                self.performSegue(withIdentifier: "ConfirmLocationSegue", sender: self)
-            } else {
-                Alerthelper.showErrorAlert(inController: self, withMessage: "Invalid latitude or longitude values.")
-            }
+        validateInputsFor(textFields: [locationTextField, linkTextField],
+                            withErrorLabels: [emptyLocationLabel, emptyLinkLabel]) { [weak self] (isValid) in
+                                guard let self = self else { return }
+                                if isValid && (self.latitude, self.longitude) != (0, 0) {
+                                    self.performSegue(withIdentifier: "ConfirmLocationSegue", sender: self)
+                                } else {
+                                    Alerthelper.showErrorAlert(inController: self, withMessage: "Invalid latitude or longitude values.")
+                                }
         }
     }
     
@@ -42,79 +56,55 @@ class InformationPostingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        locationTextField.delegate = self
-        linkTextField.delegate = self
-        
-        if let address = locationTextField.text {
-            CLGeocoder().geocodeAddressString(address) { (placemarks, error) in
-                self.processResponse(withPlacemarks: placemarks, error: error)
-            }
-        }
-        
-        // refactor: create new button type
-        confirmLocationButton.layer.cornerRadius = 15
+        loadAddress()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.destination is SubmitLocationViewController {
-            if let submitLocationViewController = segue.destination as? SubmitLocationViewController {
-                submitLocationViewController.location = locationTextField.text!
-                submitLocationViewController.link = linkTextField.text!
-                submitLocationViewController.latitude = latitude
-                submitLocationViewController.longitude = longitude
-            }
+        if let submitLocationViewController = segue.destination as? SubmitLocationViewController, segue.destination is SubmitLocationViewController {
+            
+            guard let location = locationTextField.text,
+                let link = linkTextField.text,
+                let latitude = latitude,
+                let longitude = longitude else { return }
+            
+            submitLocationViewController.location = location
+            submitLocationViewController.link = link
+            submitLocationViewController.latitude = latitude
+            submitLocationViewController.longitude = longitude
+            
         }
     }
     
     // MARK: - Helper Functions
-    
-    private func processResponse(withPlacemarks placemarks: [CLPlacemark]?,
-                                 error: Error?) {
+    private func loadAddress() {
         
-        if let error = error {
-            Alerthelper.showErrorAlert(inController: self, withMessage: "Unable to forward Geocode Address.")
-            debugPrint("ERROR: \(error)")
-        } else {
-            var location: CLLocation?
+        guard let address = locationTextField.text else {
+            Alerthelper.showErrorAlert(inController: self, withMessage: "Could not load Address.") { [weak self] in
+                self?.dismiss(animated: true, completion: nil)
+            }
+            return
+        }
+        
+        CLGeocoder().geocodeAddressString(address) { [weak self] (placemarks, error) in
             
-            if let placemarks = placemarks, placemarks.count > 0 {
-                location = placemarks.first?.location
+            guard error == nil else {
+                Alerthelper.showErrorAlert(inController: self, withMessage: "Could not load Address.") { [weak self] in
+                    self?.dismiss(animated: true, completion: nil)
+                }
+                return
             }
             
-            if let location = location {
-                latitude = location.coordinate.latitude
-                longitude = location.coordinate.longitude
-            } else {
-                // @TODO: send alert "No matching location found"
+            guard let location = placemarks?.first?.location else {
+                Alerthelper.showErrorAlert(inController: self, withMessage: "No matching location found") { [weak self] in
+                    self?.dismiss(animated: true, completion: nil)
+                }
+                return
             }
+            
+            self?.latitude = location.coordinate.latitude
+            self?.longitude = location.coordinate.longitude
+            
         }
-    }
-    
-    // @TODO: Refactor, repeated code
-    private func isValidInput(_ textField: UITextField) -> Bool {
-        guard let input = textField.text, !input.isEmpty else {
-            return false
-        }
-        return true
-    }
-    
-    // @TODO: Refactor, repeated code
-    private func validateEmptyInputs(textFields: [UITextField],
-                             errorLabels: [UILabel],
-                             completion: ((Bool) -> Void)) {
-        guard !(textFields.count == errorLabels.count) else { return }
-        
-        var validFields = 0
-        for i in 0...textFields.count {
-            if !isValidInput(textFields[i]) {
-                errorLabels[i].text = "This field must not be empty."
-            } else {
-                validFields += 1
-            }
-        }
-        
-        completion(validFields == textFields.count)
     }
     
 }

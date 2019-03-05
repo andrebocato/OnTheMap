@@ -174,3 +174,27 @@ class RequestHelper {
     }
     
 }
+
+extension RequestHelper {
+    
+    class func serializeResponse<T: Codable>(_ response: Any?, ofType: T.Type) throws ->  T {
+        
+        do {
+            
+            guard let response = response else {
+                let userInfo = [NSLocalizedDescriptionKey: "Empty response"]
+                throw NSError(domain: "RequestHelper", code: -1, userInfo: userInfo)
+            }
+            
+            let data = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
+            let serializedResponse = try JSONDecoder().decode(T.self, from: data)
+            
+            return serializedResponse
+            
+        } catch {
+            throw error
+        }
+        
+    }
+    
+}

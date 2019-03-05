@@ -10,15 +10,10 @@ import UIKit
 
 class StudentCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    func configureWithStudent(_ student: Student?) {
+        guard let student = student else { return }
+        textLabel?.numberOfLines = 2
+        textLabel?.text = student.firstName + student.lastName + "\n" + student.mediaURL
     }
 
 }
