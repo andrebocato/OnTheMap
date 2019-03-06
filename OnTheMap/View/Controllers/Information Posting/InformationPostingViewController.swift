@@ -33,22 +33,22 @@ class InformationPostingViewController: UIViewController {
     @IBOutlet private weak var emptyLocationLabel: UILabel!
     @IBOutlet private weak var emptyLinkLabel: UILabel!
     
-    // MARK: - Properties
-    
-    private var latitude: Double?
-    private var longitude: Double?
-    
     // MARK: - IBActions
     
     @IBAction private func confirmLocationButtonDidReceiveTouchUpInside(_ sender: Any) {
         validateInputsFor(textFields: [locationTextField, linkTextField],
                             withErrorLabels: [emptyLocationLabel, emptyLinkLabel]) { [weak self] (isValid) in
+                                
                                 guard let self = self else { return }
-                                if isValid && (self.latitude, self.longitude) != (0, 0) {
-                                    self.performSegue(withIdentifier: "ConfirmLocationSegue", sender: self)
-                                } else {
+                                
+                                guard isValid == false else {
                                     Alerthelper.showErrorAlert(inController: self, withMessage: "Invalid latitude or longitude values.")
+                                    return
                                 }
+                                
+                                self.loadAddress(onSuccess: { (location) in
+                                    self.performSegue(withIdentifier: "ConfirmLocationSegue", sender: location)
+                                })
         }
     }
     
@@ -56,7 +56,6 @@ class InformationPostingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadAddress()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -64,8 +63,8 @@ class InformationPostingViewController: UIViewController {
             
             guard let location = locationTextField.text,
                 let link = linkTextField.text,
-                let latitude = latitude,
-                let longitude = longitude else { return }
+                let latitude =  (sender as? CLLocation)?.coordinate.latitude,
+                let longitude = (sender as? CLLocation)?.coordinate.longitude else { return }
             
             submitLocationViewController.location = location
             submitLocationViewController.link = link
@@ -76,7 +75,7 @@ class InformationPostingViewController: UIViewController {
     }
     
     // MARK: - Helper Functions
-    private func loadAddress() {
+    private func loadAddress(onSuccess: @escaping (_ coordinate: CLLocation) -> Void) {
         
         guard let address = locationTextField.text else {
             Alerthelper.showErrorAlert(inController: self, withMessage: "Could not load Address.") { [weak self] in
@@ -101,8 +100,7 @@ class InformationPostingViewController: UIViewController {
                 return
             }
             
-            self?.latitude = location.coordinate.latitude
-            self?.longitude = location.coordinate.longitude
+            onSuccess(location)
             
         }
     }
