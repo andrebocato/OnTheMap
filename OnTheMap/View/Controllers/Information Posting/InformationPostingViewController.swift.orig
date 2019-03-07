@@ -35,11 +35,28 @@ class InformationPostingViewController: UIViewController {
     
     // MARK: - IBActions
     
+<<<<<<< HEAD
+    @IBAction private func confirmLocationButtonDidReceiveTouchUpInside(_ sender: Any) {
+        validateInputsFor(textFields: [locationTextField, linkTextField],
+                            withErrorLabels: [emptyLocationLabel, emptyLinkLabel]) { [weak self] (isValid) in
+                                
+                                guard let self = self else { return }
+                                
+                                guard isValid == false else {
+                                    Alerthelper.showErrorAlert(inController: self, withMessage: "Invalid latitude or longitude values.")
+                                    return
+                                }
+                                
+                                self.loadAddress(onSuccess: { (location) in
+                                    
+                                    self.performSegue(withIdentifier: "ConfirmLocationSegue", sender: location)
+                                })
+=======
     @IBAction private func findLocationButtonDidReceiveTouchUpInside(_ sender: Any) {
         validateInputsFor(textFields: [locationTextField, linkTextField], withErrorLabels: [emptyLocationLabel, emptyLinkLabel]) { [weak self] (isValid) in
             guard let self = self else { return }
             
-            guard isValid else {
+            guard isValid == false else {
                 Alerthelper.showErrorAlert(inController: self, withMessage: "Invalid latitude or longitude values.")
                 return
             }
@@ -47,6 +64,7 @@ class InformationPostingViewController: UIViewController {
             loadAddress(onSuccess: { (location) in
                 self.performSegue(withIdentifier: "ConfirmLocationSegue", sender: location)
             })
+>>>>>>> updates
         }
     }
     
@@ -73,7 +91,10 @@ class InformationPostingViewController: UIViewController {
     }
     
     // MARK: - Helper Functions
+<<<<<<< HEAD
+=======
     
+>>>>>>> updates
     private func loadAddress(onSuccess: @escaping (_ coordinate: CLLocation) -> Void) {
         
         guard let address = locationTextField.text else {
@@ -100,6 +121,10 @@ class InformationPostingViewController: UIViewController {
             }
             
             onSuccess(location)
+<<<<<<< HEAD
+            
+=======
+>>>>>>> updates
         }
     }
     
