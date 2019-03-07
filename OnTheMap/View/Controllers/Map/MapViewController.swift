@@ -14,11 +14,7 @@ class MapViewController: UIViewController {
 
     // MARK: - IBOutlets
     
-    @IBOutlet private weak var mapView: MKMapView! {
-        didSet {
-            mapView.delegate = self // this could be set on the storyboard...
-        }
-    }
+    @IBOutlet private weak var mapView: MKMapView!
     
     // MARK: - Life Cycle
     

@@ -14,7 +14,7 @@ extension UIViewController {
                              withErrorLabels errorLabels: [UILabel],
                              completion: ((Bool) -> Void)) {
         
-        guard !(textFields.count == errorLabels.count) else { return }
+        guard (textFields.count == errorLabels.count) else { return }
         
         var validFields = 0
         zip(textFields, errorLabels).forEach { (textField, errorLabel) in

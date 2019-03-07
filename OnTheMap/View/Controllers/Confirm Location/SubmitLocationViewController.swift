@@ -27,8 +27,6 @@ class SubmitLocationViewController: UIViewController {
     var latitude = Double()         // receiving data from InformationPostingViewController
     var longitude = Double()        // receiving data from InformationPostingViewController
     
-    var studentDoesExist = Bool()
-    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -40,90 +38,115 @@ class SubmitLocationViewController: UIViewController {
         let receivedCoordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         mapView.setCenter(receivedCoordinates, animated: true)
         
+        let region = MKCoordinateRegion(center: receivedCoordinates, latitudinalMeters: 500, longitudinalMeters: 500)
+        mapView.setRegion(region, animated: true)
+        
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = receivedCoordinates
+        mapView.addAnnotation(annotation)
+        
         // refactor: create new button type
         submitButton.layer.cornerRadius = 15
+    }
+    
+    // MARK: - Functions
+    
+    func createNewStudent(onSuccess: ((_ id: String) -> Void)? = nil) {
+        
+        let parametersForPOSTing: [String: Any] = [
+            "uniqueKey": currentUser.key,
+            "firstName": currentUser.firstName,
+            "lastName": currentUser.lastName,
+            "mapString": location,
+            "mediaURL": link,
+            "latitude": latitude,
+            "longitude": longitude
+        ]
+        
+        // POST request with 'parameters'
+        ParseClient.postStudentRequest(withParameters: parametersForPOSTing, success: { [weak self] (postStudentResponse) in
+            
+            guard let id = postStudentResponse?.objectId else {
+                Alerthelper.showErrorAlert(inController: self, withMessage: "Unexpected error.")
+                return
+            }
+            
+            onSuccess?(id)
+            
+        }) { [weak self] (optionalError) in
+            guard let error = optionalError else { return }
+            Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to post student data.")
+            self?.logError(error, description: "Failed to POST student.")
+        } // end of POST request
+        
+    }
+    
+    func updateStudent(with id: String, onSuccess: ((_ response: PutStudentResponse) -> Void)? = nil) {
+        
+        // PUT request with student's objectId
+        
+        let parameters: [String: Any] = [
+            "mapString": location,
+            "mediaURL": link,
+            "latitude": latitude,
+            "longitude": longitude
+        ]
+        
+        ParseClient.putStudentRequest(withObjectId: id, withParameters: parameters, success: { [weak self] (putStudentResponse) in
+            
+            guard let putStudentResponse = putStudentResponse else {
+                Alerthelper.showErrorAlert(inController: self, withMessage: "Unexpected error.")
+                return
+            }
+            
+            onSuccess?(putStudentResponse)
+            
+        }) { [weak self] (optionalError) in
+            guard let error = optionalError else { return }
+            Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to update student data.")
+            self?.logError(error, description: "Failed to PUT student.")
+        } // end of PUT request
+        
+    }
+    
+    private func searchStudent(withKey key: String, onSuccess: @escaping (_ objectID: String?) -> ()) {
+        // GET student request
+        ParseClient.getStudentRequest(withUniqueKey: currentUser.key, success: { (getStudentResponse) in
+            
+            guard let id = getStudentResponse?.results.first?.objectId else {
+                onSuccess(nil)
+                return
+            }
+            
+            onSuccess(id)
+            
+        }) { [weak self] (optionalError) in
+            if let error = optionalError {
+                Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to download student data.")
+                self?.logError(error, description: "Failed to GET student.")
+            }
+        } // end of GET request
     }
     
     // MARK: - IBActions
     
     @IBAction private func finishButtonDidReceiveTouchUpInside(_ sender: Any) {
         
-        self.searchStudent(withKey: currentUser.key)
-        
-        if studentDoesExist == true { // objectId from response != nil
+        searchStudent(withKey: currentUser.key) { [weak self] (id) in
             
-            // PUT request with student's objectId
-            ParseClient.putStudentRequest(withObjectId: currentStudentObjectId!, success: { (putStudentResponse) in
-                // @TODO: update student parameters (mapstring, mediaURL, latitude, longitude)
-            }) { (optionalError) in
-                if let error = optionalError {
-                    Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to update student data.")
-                    self.logError(error, description: "Failed to PUT student.")
+            guard let id = id else {
+                self?.createNewStudent { [weak self] _ in
+                  self?.navigationController?.popToRootViewController(animated: true)
                 }
-            } // end of PUT request
-            
-        } else { // objectId from response == nil
-            
-            let parametersForPOSTing: [String: Any] = [
-                "uniqueKey": currentUser.key,
-                "firstName": currentUser.firstName,
-                "lastName": currentUser.lastName,
-                "mapString": location,
-                "mediaURL": link,
-                "latitude": latitude,
-                "longitude": longitude
-            ]
-            
-            // POST request with 'parameters'
-            ParseClient.postStudentRequest(withParameters: parametersForPOSTing, success: { (postStudentResponse) in
-                if let objectIdFromResponse = postStudentResponse?.objectId {
-                    self.currentStudentObjectId = objectIdFromResponse
-                }
-            }) { (optionalError) in
-                if let error = optionalError {
-                    Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to post student data.")
-                    self.logError(error, description: "Failed to POST student.")
-                }
-            } // end of POST request
-        }
-        
-        DispatchQueue.main.async {            
-            self.navigationController?.popToRootViewController(animated: true)
-        }
-    }
-    
-    // MARK: - Helper Functions
-    
-    // @TODO: Refactor, repeated code
-    private func logError(_ error: Error,
-                              description: String? = nil) {
-        
-        if let description = description {
-            print(description + "\nError:\n\(error)")
-        } else {
-            print("An unknown error occurred. Error:\n\(error)")
-        }
-    }
-    
-    // sets boolean state of 'studentDoesExist' and 'currentStudentObjectId' value (if it's not nil)
-    private func searchStudent(withKey key: String) {
-        // GET student request
-        ParseClient.getStudentRequest(withUniqueKey: currentUser.key, success: { (getStudentResponse) in
-            guard let responseArray = getStudentResponse?.results, !responseArray.isEmpty else {
-                self.studentDoesExist = false
                 return
             }
             
-            let id = responseArray.first?.objectId
-            self.studentDoesExist = true
-            self.currentStudentObjectId = id
+            self?.updateStudent(with: id, onSuccess: { (response) in
+                self?.navigationController?.popToRootViewController(animated: true)
+            })
             
-        }) { (optionalError) in
-            if let error = optionalError {
-                Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to download student data.")
-                self.logError(error, description: "Failed to GET student.")
-            }
-        } // end of GET request
+        }
+        
     }
     
 }

@@ -106,12 +106,13 @@ class ParseClient {
     }
     
     static func putStudentRequest(withObjectId objectId: String,
+                                  withParameters parameters: [String: Any],
                                   success: @escaping (_ students: PutStudentResponse?) -> Void,
                                   failure: @escaping (Error?) -> Void) {
         
         let pathExtension = URLParameters.studentLocation + "/" + objectId
         
-        RequestHelper.taskForHTTPMethod(.put, inAPI: .parse, withPathExtension: pathExtension) { (optionalResponse, optionalError) in
+        RequestHelper.taskForHTTPMethod(.put, inAPI: .parse, withPathExtension: pathExtension, parameters: parameters) { (optionalResponse, optionalError) in
             
             // check for error and handle failure with given error
             guard optionalError == nil else {
