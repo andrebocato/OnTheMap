@@ -47,6 +47,7 @@ class InformationPostingViewController: UIViewController {
                                 }
                                 
                                 self.loadAddress(onSuccess: { (location) in
+                                    
                                     self.performSegue(withIdentifier: "ConfirmLocationSegue", sender: location)
                                 })
         }
