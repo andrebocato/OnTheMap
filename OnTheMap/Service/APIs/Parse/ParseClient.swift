@@ -30,17 +30,18 @@ class ParseClient {
     // MARK: - Functions
     
     static func getStudentsRequest(limit: Int = 100,
-                                   skip: Int? = nil,
+                                   skip: Int = 100,
                                    order: String,
                                    success: @escaping (_ students: GetStudentsResponse?) -> Void,
                                    failure: @escaping (Error?) -> Void) {
         
-        var pathExtension = URLParameters.studentLocation + "?limit=\(limit)" + "&order=\(order)"
-        if let skip = skip {
-            pathExtension = URLParameters.studentLocation + "?limit=\(limit)" + "&skip=\(skip)" + "&order=\(order)"
-        }
-        
-        RequestHelper.taskForHTTPMethod(.get, inAPI: .parse, withPathExtension: pathExtension) { (optionalResponse, optionalError) in
+        let parameters: [String: Any] = [
+            "limit": limit,
+            "skip": skip,
+            "order": order
+        ]
+    
+        RequestHelper.taskForHTTPMethod(.get, inAPI: .parse, withPathExtension: URLParameters.studentLocation, parameters: parameters) { (optionalResponse, optionalError) in
             
             // check for error and handle failure with given error
             guard optionalError == nil else {
@@ -48,6 +49,24 @@ class ParseClient {
                 return
             }
             
+//            do {
+//                let data = try JSONSerialization.data(withJSONObject: optionalResponse, options: [])
+//                debugPrint("data = \(data)")
+//
+//                let jsonRaw = try JSONSerialization.jsonObject(with: data, options: [])
+//                debugPrint("Raw = \(jsonRaw)")
+//                let jsonArray = try JSONSerialization.jsonObject(with: data, options: []) as? [[String : Any]]
+//                debugPrint("Raw = \(jsonArray ?? [])")
+//                let jsonDic = try JSONSerialization.jsonObject(with: data, options: []) as? [String : Any]
+//                debugPrint("Raw = \(jsonDic ?? [:])")
+//
+//
+//                let dataExample = try JSONDecoder().decode(GetStudentsResponse.self, from: data)
+//                debugPrint(dataExample)
+//            } catch {
+//                failure(error)
+//            }
+//
             do {
                 let serializedResponse = try RequestHelper.serializeResponse(optionalResponse, ofType: GetStudentsResponse.self)
                 success(serializedResponse)
@@ -63,16 +82,22 @@ class ParseClient {
                                   success: @escaping (_ student: GetStudentResponse?) -> Void,
                                   failure: @escaping (Error?) -> Void) {
         
-        let pathExtension = URLParameters.studentLocation + "?where={\"uniqueKey\":\"\(uniqueKey)\"}"
+        let uniqueKeyDictionary: [String: Any] = [
+            "uniqueKey": uniqueKey
+        ]
+        let parameters: [String: Any] = [
+            "where": uniqueKeyDictionary
+        ]
         
-        RequestHelper.taskForHTTPMethod(.get, inAPI: .parse, withPathExtension: pathExtension) { (optionalResponse, optionalError) in
+        
+        RequestHelper.taskForHTTPMethod(.get, inAPI: .parse, withPathExtension: URLParameters.studentLocation, parameters: parameters) { (optionalResponse, optionalError) in
             
             // check for error and handle failure with given error
             guard optionalError == nil else {
                 failure(optionalError)
                 return
             }
-        
+            
             do {
                 let serializedResponse = try RequestHelper.serializeResponse(optionalResponse, ofType: GetStudentResponse.self)
                 success(serializedResponse)
@@ -84,8 +109,8 @@ class ParseClient {
     }
     
     static func postStudentRequest(withParameters parameters: [String: Any],
-                                  success: @escaping (_ students: PostStudentResponse?) -> Void,
-                                  failure: @escaping (Error?) -> Void) {
+                                   success: @escaping (_ students: PostStudentResponse?) -> Void,
+                                   failure: @escaping (Error?) -> Void) {
         
         RequestHelper.taskForHTTPMethod(.post, inAPI: .parse, withPathExtension: URLParameters.studentLocation) { (optionalResponse, optionalError) in
             
@@ -101,7 +126,7 @@ class ParseClient {
             } catch {
                 failure(error)
             }
-        
+            
         }
     }
     

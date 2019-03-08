@@ -14,8 +14,16 @@ class SubmitLocationViewController: UIViewController {
 
     // MARK: - IBOutlets
     
-    @IBOutlet private weak var mapView: MKMapView!
-    @IBOutlet private weak var submitButton: UIButton!
+    @IBOutlet private weak var mapView: MKMapView! {
+        didSet {
+            mapView.delegate = self
+        }
+    }
+    @IBOutlet private weak var submitButton: UIButton! {
+        didSet {
+            submitButton.layer.cornerRadius = 15
+        }
+    }
     
     // MARK: - Properties
     
@@ -32,21 +40,17 @@ class SubmitLocationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        mapView.delegate = self
-        
         // @TODO: send mapView to (latitude, longitude) received from InformationPostingViewController
         let receivedCoordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         mapView.setCenter(receivedCoordinates, animated: true)
         
-        let region = MKCoordinateRegion(center: receivedCoordinates, latitudinalMeters: 500, longitudinalMeters: 500)
+        let region = MKCoordinateRegion(center: receivedCoordinates, latitudinalMeters: 1500, longitudinalMeters: 1500)
         mapView.setRegion(region, animated: true)
         
         let annotation = MKPointAnnotation()
         annotation.coordinate = receivedCoordinates
         mapView.addAnnotation(annotation)
         
-        // refactor: create new button type
-        submitButton.layer.cornerRadius = 15
     }
     
     // MARK: - Functions
@@ -67,7 +71,9 @@ class SubmitLocationViewController: UIViewController {
         ParseClient.postStudentRequest(withParameters: parametersForPOSTing, success: { [weak self] (postStudentResponse) in
             
             guard let id = postStudentResponse?.objectId else {
-                Alerthelper.showErrorAlert(inController: self, withMessage: "Unexpected error.")
+                DispatchQueue.main.async {
+                    Alerthelper.showErrorAlert(inController: self, withMessage: "Unexpected error.")
+                }
                 return
             }
             
@@ -75,7 +81,9 @@ class SubmitLocationViewController: UIViewController {
             
         }) { [weak self] (optionalError) in
             guard let error = optionalError else { return }
-            Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to post student data.")
+            DispatchQueue.main.async {
+                Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to post student data.")
+            }
             self?.logError(error, description: "Failed to POST student.")
         } // end of POST request
         
@@ -95,7 +103,9 @@ class SubmitLocationViewController: UIViewController {
         ParseClient.putStudentRequest(withObjectId: id, withParameters: parameters, success: { [weak self] (putStudentResponse) in
             
             guard let putStudentResponse = putStudentResponse else {
-                Alerthelper.showErrorAlert(inController: self, withMessage: "Unexpected error.")
+                DispatchQueue.main.async {
+                    Alerthelper.showErrorAlert(inController: self, withMessage: "Unexpected error.")
+                }
                 return
             }
             
@@ -103,7 +113,9 @@ class SubmitLocationViewController: UIViewController {
             
         }) { [weak self] (optionalError) in
             guard let error = optionalError else { return }
-            Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to update student data.")
+            DispatchQueue.main.async {
+                Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to update student data.")
+            }
             self?.logError(error, description: "Failed to PUT student.")
         } // end of PUT request
         
@@ -122,7 +134,9 @@ class SubmitLocationViewController: UIViewController {
             
         }) { [weak self] (optionalError) in
             if let error = optionalError {
-                Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to download student data.")
+                DispatchQueue.main.async {
+                    Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to download student data.")
+                }
                 self?.logError(error, description: "Failed to GET student.")
             }
         } // end of GET request

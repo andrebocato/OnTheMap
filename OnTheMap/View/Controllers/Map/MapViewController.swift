@@ -31,14 +31,16 @@ class MapViewController: UIViewController {
             self?.createStudentsAnnotations(using: students)
             }, failure: { [weak self] (optionalError) in
                 guard let self = self, let error = optionalError else { return }
-                Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to download students data.")
+                DispatchQueue.main.async {
+                    Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to download students data.")
+                }
                 self.logError(error, description: "Failed to GET students.")
         }) // end of GET students request
     }
     
     private func createStudentsAnnotations(using students: [Student]) {
         let annotations = students.map { (student) -> MKPointAnnotation in
-            let coordinate = CLLocationCoordinate2D(latitude: student.latitude, longitude: student.longitude)
+            let coordinate = CLLocationCoordinate2D(latitude: student.latitude ?? 0, longitude: student.longitude ?? 0)
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
             annotation.title = "\(student.firstName) \(student.lastName)"

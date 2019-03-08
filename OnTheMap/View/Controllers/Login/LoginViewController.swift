@@ -27,7 +27,6 @@ class LoginViewController: UIViewController {
     }
     @IBOutlet private weak var loginButton: UIButton! {
         didSet {
-            // refactor: create new button type
             loginButton.layer.cornerRadius = 15
         }
     }
@@ -44,9 +43,8 @@ class LoginViewController: UIViewController {
     // MARK: - IBActions
     
     @IBAction private func loginButtonDidReceiveTouchUpInside(_ sender: Any) {
-        validateInputsFor(textFields: [usernameTextField, passwordTextField],
-                          withErrorLabels: [emptyUsernameLabel, emptyPasswordLabel]) { [weak self] (isValid) in
-                            if isValid { self?.doLogin() }
+        validateInputsFor(textFields: [usernameTextField, passwordTextField], withErrorLabels: [emptyUsernameLabel, emptyPasswordLabel]) { [weak self] (isValid) in
+            if isValid { self?.doLogin() }
         }
     }
     
@@ -85,7 +83,9 @@ class LoginViewController: UIViewController {
             }, failure: { [weak self] (optionalError) in
                 guard let self = self else { return }
                 if let error = optionalError {
-                    Alerthelper.showErrorAlert(inController: self, withMessage: "Login failed.")
+                    DispatchQueue.main.async {
+                        Alerthelper.showErrorAlert(inController: self, withMessage: "Login failed.")
+                    }
                     self.logError(error, description: "Failed to GET userId.")
                 }
                 self.configureUIForRequestInProgress(false)
@@ -93,7 +93,9 @@ class LoginViewController: UIViewController {
         }, failure: { [weak self] (optionalError) in
             guard let self = self else { return }
             if let error = optionalError {
-                Alerthelper.showErrorAlert(inController: self, withMessage: "Login failed.")
+                DispatchQueue.main.async {
+                    Alerthelper.showErrorAlert(inController: self, withMessage: "Login failed.")
+                }
                 self.logError(error, description: "Failed to POST login session.")
             }
             self.configureUIForRequestInProgress(false)

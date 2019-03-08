@@ -10,15 +10,15 @@ import Foundation
 
 struct Student: Codable {
     
-    var createdAt: String
-    var updatedAt: String
-    var firstName: String
-    var lastName: String
-    var latitude: Double
-    var longitude: Double
-    var mapString: String
-    var mediaURL: String
+    var createdAt: String?
+    var updatedAt: String?
+    var firstName: String?
+    var lastName: String?
+    var latitude: Double?
+    var longitude: Double?
+    var mapString: String?
+    var mediaURL: String?
     var objectId: String?
-    var uniqueKey: String
+    var uniqueKey: String?
     
 }

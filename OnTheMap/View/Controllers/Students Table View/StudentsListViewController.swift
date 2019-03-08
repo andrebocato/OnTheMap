@@ -19,7 +19,11 @@ class StudentsListViewController: UIViewController {
     
     // MARK: - Properties
     
-    private var students: [Student]?
+    private var students: [Student]? {
+        didSet {
+            studentsTableView.reloadData()
+        }
+    }
     
     // MARK: - Life Cycle
     
@@ -30,7 +34,6 @@ class StudentsListViewController: UIViewController {
 
     // MARK: - Helper Functions
     
-    // @TODO: Refactor, repeated code
     private func logError(_ error: Error,
                               description: String? = nil) {
         
@@ -41,17 +44,20 @@ class StudentsListViewController: UIViewController {
         }
     }
     
-    // @TODO: Refactor, repeated code
     private func fetchStudents() {
         
         // GET request for students
-        ParseClient.getStudentsRequest(limit: 100, skip: 100, order: "-updatedAt", success: { [weak self] (getStudentsResponse) in
+        ParseClient.getStudentsRequest(limit: 100, skip: 100, order: "-updatedAt", success: { (getStudentsResponse) in
             guard let students = getStudentsResponse?.results else { return }
-            self?.students = students
-        }, failure: { [weak self] (optionalError) in
-            guard let self = self, let error = optionalError else { return }
-            Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to download students data.")
-            self.logError(error, description: "Failed to GET students.")
+            DispatchQueue.main.async {
+                self.students = students
+            }
+            }, failure: { [weak self] (optionalError) in
+                guard let self = self, let error = optionalError else { return }
+                DispatchQueue.main.async {
+                    Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to download students data.")
+                }
+                self.logError(error, description: "Failed to GET students.")
         }) // end of GET students request
         
     }
@@ -79,7 +85,7 @@ extension StudentsListViewController: UITableViewDelegate, UITableViewDataSource
     }
  
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let student = students?[indexPath.row], let studentURL = URL(string: student.mediaURL) else { return }
+        guard let student = students?[indexPath.row], let studentURL = URL(string: student.mediaURL ?? "") else { return }
         UIApplication.shared.open(studentURL, options: [:], completionHandler: nil)
     }
     

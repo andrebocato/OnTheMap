@@ -33,13 +33,13 @@ class RequestHelper {
     private init() {}
     
     // MARK: - Networking functions
-
+    
     @discardableResult      // result won't necessarily be used
     static func taskForHTTPMethod(_ method: HTTPMethod,
-                              inAPI api: API,
-                              withPathExtension path: String?,
-                              parameters: [String: Any]? = nil,
-                              completionHandler: @escaping (_ result: Any?, _ error: NSError?) -> Void) -> URLSessionDataTask {
+                                  inAPI api: API,
+                                  withPathExtension path: String?,
+                                  parameters: [String: Any]? = nil,
+                                  completionHandler: @escaping (_ result: Any?, _ error: NSError?) -> Void) -> URLSessionDataTask {
         
         let url = createURLForAPI(api: api, parameters: parameters, withPathExtension: path)
         var request = NSMutableURLRequest(url: url)
@@ -85,12 +85,12 @@ class RequestHelper {
         default: return
         }
     }
-
+    
     // MARK: - Helper Functions
-
+    
     private static func createURLForAPI(api: API,
-                                          parameters: [String: Any]? = nil,
-                                          withPathExtension pathExtension: String? = nil) -> URL {
+                                        parameters: [String: Any]? = nil,
+                                        withPathExtension pathExtension: String? = nil) -> URL {
         var components = URLComponents()
         components.scheme = "https"
         switch api {
@@ -116,7 +116,7 @@ class RequestHelper {
         
         return components.url!
     }
-
+    
     private static func convertDataWithCompletionHandler(_ data: Data,
                                                          completionHandlerForConvertData: (_ result: Any?, _ error: NSError?) -> Void ) {
         var parsedResult: Any? = nil
@@ -129,7 +129,7 @@ class RequestHelper {
         
         completionHandlerForConvertData(parsedResult, nil)
     }
-
+    
     private static func sendError(_ error: String,
                                   _ completionHandler: (_ result: Any?, _ error: NSError?) -> Void) {
         let userInfo = [NSLocalizedDescriptionKey: error]
@@ -137,9 +137,9 @@ class RequestHelper {
     }
     
     private static func handleErrorsAndConverData(_ error: Error?,
-                                   _ response: HTTPURLResponse?,
-                                   _ data: Data?,
-                                   _ completionHandler: (Any?, NSError?) -> Void) {
+                                                  _ response: HTTPURLResponse?,
+                                                  _ data: Data?,
+                                                  _ completionHandler: (Any?, NSError?) -> Void) {
         // GUARD: Was there an error?
         guard error == nil else {
             self.sendError("There was an error with your request: \(error!)", completionHandler)

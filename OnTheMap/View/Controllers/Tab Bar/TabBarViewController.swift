@@ -16,15 +16,18 @@ class TabBarViewController: UITabBarController {
     // MARK: - IBActions
     
     @IBAction private func logoutBarButtonDidReceiveTouchUpInside(_ sender: Any) {
+        // DELETE request
         UdacityClient.deleteSesionRequest(success: { [weak self] _ in
             CurrentSessionData.shared.clearSessionData()
             self?.selectedViewController?.dismiss(animated: true, completion: nil)
-        }, failure: { [weak self] (optionalError) in
-            guard let self = self else { return }
-            if let error = optionalError {
-                Alerthelper.showErrorAlert(inController: self, withMessage: "Logout failed.")
-                self.logError(error, description: "Logout request failed.")
-            }
+            }, failure: { [weak self] (optionalError) in
+                guard let self = self else { return }
+                if let error = optionalError {
+                    DispatchQueue.main.async {
+                        Alerthelper.showErrorAlert(inController: self, withMessage: "Logout failed.")
+                    }
+                    self.logError(error, description: "Logout request failed.")
+                }
         }) // end of DELETE request
     }
     
