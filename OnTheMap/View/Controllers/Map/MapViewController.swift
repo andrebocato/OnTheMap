@@ -43,7 +43,7 @@ class MapViewController: UIViewController {
             let coordinate = CLLocationCoordinate2D(latitude: student.latitude ?? 0, longitude: student.longitude ?? 0)
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
-            annotation.title = "\(student.firstName) \(student.lastName)"
+            annotation.title = "\(student.firstName ?? "") \(student.lastName ?? "")"
             annotation.subtitle = student.mediaURL
             return annotation
         }

@@ -82,13 +82,9 @@ class ParseClient {
                                   success: @escaping (_ student: GetStudentResponse?) -> Void,
                                   failure: @escaping (Error?) -> Void) {
         
-        let uniqueKeyDictionary: [String: Any] = [
-            "uniqueKey": uniqueKey
-        ]
         let parameters: [String: Any] = [
-            "where": uniqueKeyDictionary
+            "where": "{\"uniqueKey\":\"\(uniqueKey)\"}"
         ]
-        
         
         RequestHelper.taskForHTTPMethod(.get, inAPI: .parse, withPathExtension: URLParameters.studentLocation, parameters: parameters) { (optionalResponse, optionalError) in
             
