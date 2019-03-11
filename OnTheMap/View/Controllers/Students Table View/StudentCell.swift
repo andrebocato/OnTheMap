@@ -13,7 +13,7 @@ class StudentCell: UITableViewCell {
     func configureWithStudent(_ student: Student?) {
         guard let student = student else { return }
         textLabel?.numberOfLines = 2
-        textLabel?.text = "\(student.firstName ?? "") \(student.lastName ?? "") \n\(student.mediaURL)"
+        textLabel?.text = "\(student.firstName ?? "") \(student.lastName ?? "")\n\(student.mediaURL ?? "")"
     }
 
 }
