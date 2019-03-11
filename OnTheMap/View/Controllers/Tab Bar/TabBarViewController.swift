@@ -23,9 +23,7 @@ class TabBarViewController: UITabBarController {
             }, failure: { [weak self] (optionalError) in
                 guard let self = self else { return }
                 if let error = optionalError {
-                    DispatchQueue.main.async {
-                        Alerthelper.showErrorAlert(inController: self, withMessage: "Logout failed.")
-                    }
+                    Alerthelper.showErrorAlert(inController: self, withMessage: "Logout failed.")
                     self.logError(error, description: "Logout request failed.")
                 }
         }) // end of DELETE request

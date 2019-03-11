@@ -8,6 +8,27 @@
 
 import Foundation
 
+class URLHelper {
+    
+    static func escapedParameters(_ parameters: [String: Any]) -> String {
+        if parameters.isEmpty {
+            return ""
+        } else {
+            var keyValuePairs = [String]()
+            for (key, value) in parameters {
+                // make sure that it is a string value
+                let stringValue = "\(value)"
+                // escape it
+                let escapedValue = stringValue.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+                // append it
+                keyValuePairs.append(key + "=" + "\(escapedValue!)")
+            }
+            return "?\(keyValuePairs.joined(separator: "&"))"
+        }
+    }
+    
+}
+
 class ParseClient {
     
     private init() {}
@@ -30,19 +51,20 @@ class ParseClient {
     // MARK: - Functions
     
     static func getStudentsRequest(limit: Int = 100,
-                                   skip: Int = 100,
+                                   skip: Int? = nil,
                                    order: String,
                                    success: @escaping (_ students: GetStudentsResponse?) -> Void,
                                    failure: @escaping (Error?) -> Void) {
         
-        let parameters: [String: Any] = [
-            "limit": limit,
-            "skip": skip,
-            "order": order
-        ]
-    
+        var parameters = [String: Any]()
+        parameters["limit"] = limit
+        if let skip = skip {
+           parameters["skip"] = skip
+        }
+        parameters["order"] = order
+        
         RequestHelper.taskForHTTPMethod(.get, inAPI: .parse, withPathExtension: URLParameters.studentLocation, parameters: parameters) { (optionalResponse, optionalError) in
-            
+        
             // check for error and handle failure with given error
             guard optionalError == nil else {
                 failure(optionalError)
@@ -82,12 +104,11 @@ class ParseClient {
                                   success: @escaping (_ student: GetStudentResponse?) -> Void,
                                   failure: @escaping (Error?) -> Void) {
         
-        let parameters: [String: Any] = [
-            "where": "{\"uniqueKey\"%3A\"\(uniqueKey)\"}"
-//            "where": ["uniqueKey": uniqueKey]
-        ]
+        let path = URLHelper.escapedParameters(["where": ["{uniqueKey": "\(uniqueKey)}"]])
         
-        RequestHelper.taskForHTTPMethod(.get, inAPI: .parse, withPathExtension: URLParameters.studentLocation, parameters: parameters) { (optionalResponse, optionalError) in
+        let pathExtension = URLParameters.studentLocation + path
+        
+        RequestHelper.taskForHTTPMethod(.get, inAPI: .parse, withPathExtension: pathExtension) { (optionalResponse, optionalError) in
             
             // check for error and handle failure with given error
             guard optionalError == nil else {
@@ -109,7 +130,7 @@ class ParseClient {
                                    success: @escaping (_ students: PostStudentResponse?) -> Void,
                                    failure: @escaping (Error?) -> Void) {
         
-        RequestHelper.taskForHTTPMethod(.post, inAPI: .parse, withPathExtension: URLParameters.studentLocation) { (optionalResponse, optionalError) in
+        RequestHelper.taskForHTTPMethod(.post, inAPI: .parse, withPathExtension: URLParameters.studentLocation, parameters: parameters) { (optionalResponse, optionalError) in
             
             // check for error and handle failure with given error
             guard optionalError == nil else {

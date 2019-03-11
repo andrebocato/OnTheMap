@@ -19,7 +19,9 @@ extension UIViewController {
         var validFields = 0
         zip(textFields, errorLabels).forEach { (textField, errorLabel) in
             if !textField.hasValidInput() {
-                errorLabel.text = "This field must not be empty."
+                DispatchQueue.main.async {
+                    errorLabel.text = "This field must not be empty."
+                }
             } else {
                 validFields += 1
             }

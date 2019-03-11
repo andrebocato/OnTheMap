@@ -47,17 +47,13 @@ class StudentsListViewController: UIViewController {
     private func fetchStudents() {
         
         // GET request for students
-        ParseClient.getStudentsRequest(limit: 100, skip: 100, order: "-updatedAt", success: { (getStudentsResponse) in
+        ParseClient.getStudentsRequest(limit: 100, skip: 100, order: "-updatedAt", success: { [weak self] (getStudentsResponse) in
             guard let students = getStudentsResponse?.results else { return }
-            DispatchQueue.main.async {
-                self.students = students
-            }
-            }, failure: { [weak self] (optionalError) in
-                guard let self = self, let error = optionalError else { return }
-                DispatchQueue.main.async {
-                    Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to download students data.")
-                }
-                self.logError(error, description: "Failed to GET students.")
+            self?.students = students
+        }, failure: { [weak self] (optionalError) in
+                guard let error = optionalError else { return }
+                Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to download students data.")
+                self?.logError(error, description: "Failed to GET students.")
         }) // end of GET students request
         
     }

@@ -18,16 +18,19 @@ class Alerthelper {
                                withMessage message: String,
                                okCompletion: (() -> Void)? = nil) {
         
-        let errorAlert = UIAlertController(title: "An error has occurred", message: message, preferredStyle: .alert)
-        
+        let errorAlert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
             errorAlert.dismiss(animated: true, completion: {
-                okCompletion?()
+                DispatchQueue.main.async {
+                    okCompletion?()
+                }
             })
         }
         errorAlert.addAction(okAction)
         
-        controller?.present(errorAlert, animated: true, completion: nil)
+        DispatchQueue.main.async {
+             controller?.present(errorAlert, animated: true, completion: nil)
+        }
     }
     
 }

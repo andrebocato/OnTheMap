@@ -83,9 +83,7 @@ class LoginViewController: UIViewController {
             }, failure: { [weak self] (optionalError) in
                 guard let self = self else { return }
                 if let error = optionalError {
-                    DispatchQueue.main.async {
-                        Alerthelper.showErrorAlert(inController: self, withMessage: "Login failed.")
-                    }
+                    Alerthelper.showErrorAlert(inController: self, withMessage: "Login failed.")
                     self.logError(error, description: "Failed to GET userId.")
                 }
                 self.configureUIForRequestInProgress(false)
@@ -93,9 +91,7 @@ class LoginViewController: UIViewController {
         }, failure: { [weak self] (optionalError) in
             guard let self = self else { return }
             if let error = optionalError {
-                DispatchQueue.main.async {
-                    Alerthelper.showErrorAlert(inController: self, withMessage: "Login failed.")
-                }
+                Alerthelper.showErrorAlert(inController: self, withMessage: "Login failed.")
                 self.logError(error, description: "Failed to POST login session.")
             }
             self.configureUIForRequestInProgress(false)

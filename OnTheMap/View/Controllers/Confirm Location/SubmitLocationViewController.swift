@@ -71,9 +71,7 @@ class SubmitLocationViewController: UIViewController {
         ParseClient.postStudentRequest(withParameters: parametersForPOSTing, success: { [weak self] (postStudentResponse) in
             
             guard let id = postStudentResponse?.objectId else {
-                DispatchQueue.main.async {
-                    Alerthelper.showErrorAlert(inController: self, withMessage: "Unexpected error.")
-                }
+                Alerthelper.showErrorAlert(inController: self, withMessage: "Unexpected error.")
                 return
             }
             
@@ -81,9 +79,11 @@ class SubmitLocationViewController: UIViewController {
             
         }) { [weak self] (optionalError) in
             guard let error = optionalError else { return }
-            DispatchQueue.main.async {
-                Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to post student data.")
-            }
+            
+            Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to post student data.", okCompletion: {
+                self?.navigationController?.popViewController(animated: true)
+            })
+            
             self?.logError(error, description: "Failed to POST student.")
         } // end of POST request
         
@@ -103,9 +103,7 @@ class SubmitLocationViewController: UIViewController {
         ParseClient.putStudentRequest(withObjectId: id, withParameters: parameters, success: { [weak self] (putStudentResponse) in
             
             guard let putStudentResponse = putStudentResponse else {
-                DispatchQueue.main.async {
-                    Alerthelper.showErrorAlert(inController: self, withMessage: "Unexpected error.")
-                }
+                Alerthelper.showErrorAlert(inController: self, withMessage: "Unexpected error.")
                 return
             }
             
@@ -113,9 +111,7 @@ class SubmitLocationViewController: UIViewController {
             
         }) { [weak self] (optionalError) in
             guard let error = optionalError else { return }
-            DispatchQueue.main.async {
-                Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to update student data.")
-            }
+            Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to update student data.")
             self?.logError(error, description: "Failed to PUT student.")
         } // end of PUT request
         
@@ -134,9 +130,7 @@ class SubmitLocationViewController: UIViewController {
             
         }) { [weak self] (optionalError) in
             if let error = optionalError {
-                DispatchQueue.main.async {
-                    Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to download student data.")
-                }
+                Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to download student data.")
                 self?.logError(error, description: "Failed to GET student.")
             }
         } // end of GET request
