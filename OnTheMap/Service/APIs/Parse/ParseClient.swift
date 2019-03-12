@@ -131,53 +131,53 @@ class ParseClient {
                                    failure: @escaping (Error?) -> Void) {
         
         
-        var request = URLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
-        request.httpMethod = "POST"
-        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
-        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: .sortedKeys)//"{\"uniqueKey\": \"1234\", \"firstName\": \"John\", \"lastName\": \"Doe\",\"mapString\": \"Mountain View, CA\", \"mediaURL\": \"https://udacity.com\",\"latitude\": 37.386052, \"longitude\": -122.083851}".data(using: .utf8)
-        let session = URLSession.shared
-        let task = session.dataTask(with: request) { data, response, error in
-
-            // check for error and handle failure with given error
-            guard error == nil else {
-                failure(error)
-                return
-            }
-            
-            guard let data = data else {
-                return
-            }
-
-            do {
-                let rawResponse = String(data: data, encoding: .utf8)!
-                debugPrint(rawResponse)
-                let serializedResponse = try JSONDecoder().decode(PostStudentResponse.self, from: data)
-                success(serializedResponse)
-            } catch {
-                failure(error)
-            }
-
-        }
-        task.resume()
-        
-//        RequestHelper.taskForHTTPMethod(.post, inAPI: .parse, withPathExtension: URLParameters.studentLocation, parameters: parameters) { (optionalResponse, optionalError) in
+//        var request = URLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
+//        request.httpMethod = "POST"
+//        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+//        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+//        request.httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: .sortedKeys)//"{\"uniqueKey\": \"1234\", \"firstName\": \"John\", \"lastName\": \"Doe\",\"mapString\": \"Mountain View, CA\", \"mediaURL\": \"https://udacity.com\",\"latitude\": 37.386052, \"longitude\": -122.083851}".data(using: .utf8)
+//        let session = URLSession.shared
+//        let task = session.dataTask(with: request) { data, response, error in
 //
 //            // check for error and handle failure with given error
-//            guard optionalError == nil else {
-//                failure(optionalError)
+//            guard error == nil else {
+//                failure(error)
+//                return
+//            }
+//
+//            guard let data = data else {
 //                return
 //            }
 //
 //            do {
-//                let serializedResponse = try RequestHelper.serializeResponse(optionalResponse, ofType: PostStudentResponse.self)
+//                let rawResponse = String(data: data, encoding: .utf8)!
+//                debugPrint(rawResponse)
+//                let serializedResponse = try JSONDecoder().decode(PostStudentResponse.self, from: data)
 //                success(serializedResponse)
 //            } catch {
 //                failure(error)
 //            }
 //
 //        }
+//        task.resume()
+        
+        RequestHelper.taskForHTTPMethod(.post, inAPI: .parse, withPathExtension: URLParameters.studentLocation, parameters: parameters) { (optionalResponse, optionalError) in
+
+            // check for error and handle failure with given error
+            guard optionalError == nil else {
+                failure(optionalError)
+                return
+            }
+
+            do {
+                let serializedResponse = try RequestHelper.serializeResponse(optionalResponse, ofType: PostStudentResponse.self)
+                success(serializedResponse)
+            } catch {
+                failure(error)
+            }
+
+        }
     }
     
     static func putStudentRequest(withObjectId objectId: String,

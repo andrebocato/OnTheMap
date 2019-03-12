@@ -43,7 +43,7 @@ class RequestHelper {
         
         let url = createURLForAPI(api: api, parameters: parameters, withPathExtension: path)
         var request = NSMutableURLRequest(url: url)
-        configureHTTPHeaders(for: request, using: api)
+        configureHTTPHeaders(for: request, using: api, method: method)
         configureRequest(&request, for: method, using: api, parameters: parameters)
         
         let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
@@ -67,7 +67,7 @@ class RequestHelper {
         // Common stuff
         request.httpMethod = method.name
         if let parameters = parameters {
-            request.httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: .sortedKeys)
+            request.httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
         }
         
         // Specific stuff
@@ -162,14 +162,23 @@ class RequestHelper {
     }
     
     private static func configureHTTPHeaders(for request: NSMutableURLRequest,
-                                             using api: API) {
+                                             using api: API, method: HTTPMethod) {
         
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        if api == .parse {
+        switch api {
+        case .parse:
             request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id") // TODO: Move to constants
-            request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key") // TODO: Move to constants
+            request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key") // TODO: Move to constant
+        default: return
         }
+        
+        switch (method, api) {
+        case (.post, .parse), (.put, .parse):
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        default: return
+        }
+        
         
     }
     
