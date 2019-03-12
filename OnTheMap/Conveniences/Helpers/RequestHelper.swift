@@ -67,7 +67,7 @@ class RequestHelper {
         // Common stuff
         request.httpMethod = method.name
         if let parameters = parameters {
-            request.httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+            request.httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: .sortedKeys)
         }
         
         // Specific stuff

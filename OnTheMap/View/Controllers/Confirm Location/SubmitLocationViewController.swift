@@ -144,13 +144,17 @@ class SubmitLocationViewController: UIViewController {
             
             guard let id = id else {
                 self?.createNewStudent { [weak self] _ in
-                  self?.navigationController?.popToRootViewController(animated: true)
+                    DispatchQueue.main.async {
+                        self?.navigationController?.popToRootViewController(animated: true)
+                    }
                 }
                 return
             }
             
             self?.updateStudent(with: id, onSuccess: { (response) in
-                self?.navigationController?.popToRootViewController(animated: true)
+                DispatchQueue.main.async {
+                    self?.navigationController?.popToRootViewController(animated: true)
+                }
             })
             
         }
