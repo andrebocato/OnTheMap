@@ -44,7 +44,7 @@ class SubmitLocationViewController: UIViewController {
         let receivedCoordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         mapView.setCenter(receivedCoordinates, animated: true)
         
-        let region = MKCoordinateRegion(center: receivedCoordinates, latitudinalMeters: 1500, longitudinalMeters: 1500)
+        let region = MKCoordinateRegion(center: receivedCoordinates, latitudinalMeters: 1000, longitudinalMeters: 1000)
         mapView.setRegion(region, animated: true)
         
         let annotation = MKPointAnnotation()

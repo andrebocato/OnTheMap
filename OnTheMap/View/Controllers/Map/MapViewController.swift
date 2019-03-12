@@ -20,6 +20,7 @@ class MapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         loadMapData()
     }
     
@@ -37,6 +38,7 @@ class MapViewController: UIViewController {
     }
     
     private func createStudentsAnnotations(using students: [Student]) {
+        
         let annotations = students.map { (student) -> MKPointAnnotation in
             let coordinate = CLLocationCoordinate2D(latitude: student.latitude ?? 0, longitude: student.longitude ?? 0)
             let annotation = MKPointAnnotation()
@@ -45,7 +47,10 @@ class MapViewController: UIViewController {
             annotation.subtitle = student.mediaURL
             return annotation
         }
+        
         mapView.addAnnotations(annotations)
+        
+        
     }
     
 }
