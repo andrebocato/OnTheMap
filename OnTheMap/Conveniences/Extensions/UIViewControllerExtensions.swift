@@ -11,8 +11,8 @@ import UIKit
 extension UIViewController {
     
     func validateInputsFor(textFields: [UITextField],
-                             withErrorLabels errorLabels: [UILabel],
-                             completion: ((Bool) -> Void)) {
+                           withErrorLabels errorLabels: [UILabel],
+                           completion: ((Bool) -> Void)) {
         
         guard (textFields.count == errorLabels.count) else { return }
         

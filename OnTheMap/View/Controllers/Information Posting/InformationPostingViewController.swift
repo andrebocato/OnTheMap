@@ -32,19 +32,29 @@ class InformationPostingViewController: UIViewController {
     }
     @IBOutlet private weak var emptyLocationLabel: UILabel!
     @IBOutlet private weak var emptyLinkLabel: UILabel!
+    @IBOutlet private weak var activityIndicatorView: UIActivityIndicatorView! {
+        didSet {
+            activityIndicatorView.stopAnimating()
+            activityIndicatorView.isHidden = true
+        }
+    }
     
     // MARK: - IBActions
     
     @IBAction private func findLocationButtonDidReceiveTouchUpInside(_ sender: Any) {
+        view.configureUIForLoading(true, activityIndicatorView, findLocationButton)
+        
         validateInputsFor(textFields: [locationTextField, linkTextField], withErrorLabels: [emptyLocationLabel, emptyLinkLabel]) { [weak self] (isValid) in
             guard let self = self else { return }
             
             guard isValid else {
-                Alerthelper.showErrorAlert(inController: self, withMessage: "Invalid latitude or longitude values.")
+                self.view.configureUIForLoading(false, self.activityIndicatorView, self.findLocationButton)
+                Alerthelper.showErrorAlert(inController: self, withMessage: "Could not find location.")
                 return
             }
             
             loadAddress(onSuccess: { (location) in
+                self.view.configureUIForLoading(false, self.activityIndicatorView, self.findLocationButton)
                 self.performSegue(withIdentifier: "ConfirmLocationSegue", sender: location)
             })
         }
@@ -77,6 +87,7 @@ class InformationPostingViewController: UIViewController {
     private func loadAddress(onSuccess: @escaping (_ coordinate: CLLocation) -> Void) {
         
         guard let address = locationTextField.text else {
+            view.configureUIForLoading(false, activityIndicatorView, findLocationButton)
             Alerthelper.showErrorAlert(inController: self, withMessage: "Could not load Address.") { [weak self] in
                 self?.dismiss(animated: true, completion: nil)
             }
@@ -84,8 +95,12 @@ class InformationPostingViewController: UIViewController {
         }
         
         CLGeocoder().geocodeAddressString(address) { [weak self] (placemarks, error) in
+            guard let self = self else { return }
+            
+            self.view.configureUIForLoading(true, self.activityIndicatorView, self.findLocationButton)
             
             guard error == nil else {
+                self.view.configureUIForLoading(false, self.activityIndicatorView, self.findLocationButton)
                 Alerthelper.showErrorAlert(inController: self, withMessage: "Could not load Address.") { [weak self] in
                     self?.dismiss(animated: true, completion: nil)
                 }
@@ -93,12 +108,14 @@ class InformationPostingViewController: UIViewController {
             }
             
             guard let location = placemarks?.first?.location else {
+                self.view.configureUIForLoading(false, self.activityIndicatorView, self.findLocationButton)
                 Alerthelper.showErrorAlert(inController: self, withMessage: "No matching location found") { [weak self] in
                     self?.dismiss(animated: true, completion: nil)
                 }
                 return
             }
             
+            self.view.configureUIForLoading(false, self.activityIndicatorView, self.findLocationButton)
             onSuccess(location)
         }
     }

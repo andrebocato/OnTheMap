@@ -258,11 +258,21 @@
                                 <color key="textColor" red="1" green="0.10832243799999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="A4v-b1-N3x" userLabel="Activity Indicator">
+                                <rect key="frame" x="162.5" y="438" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="3Xe-lF-OW6"/>
+                                    <constraint firstAttribute="width" constant="50" id="Ijj-xS-Flb"/>
+                                </constraints>
+                                <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="8EB-L3-Zld" firstAttribute="top" secondItem="73p-4l-oKr" secondAttribute="bottom" constant="20" id="23U-np-Zcg"/>
                             <constraint firstItem="73p-4l-oKr" firstAttribute="leading" secondItem="4Rn-D8-kl4" secondAttribute="leading" constant="40" id="4NT-RY-MId"/>
+                            <constraint firstItem="A4v-b1-N3x" firstAttribute="top" secondItem="8EB-L3-Zld" secondAttribute="bottom" constant="50" id="9dv-8X-YvR"/>
+                            <constraint firstItem="A4v-b1-N3x" firstAttribute="centerX" secondItem="4Rn-D8-kl4" secondAttribute="centerX" id="Ht8-KF-bkf"/>
                             <constraint firstItem="eqp-0f-08W" firstAttribute="leading" secondItem="4Rn-D8-kl4" secondAttribute="leading" constant="40" id="QML-TV-oGq"/>
                             <constraint firstItem="A6f-k0-KAS" firstAttribute="leading" secondItem="4Rn-D8-kl4" secondAttribute="leading" constant="40" id="cGa-ZE-b3K"/>
                             <constraint firstItem="73p-4l-oKr" firstAttribute="top" secondItem="eqp-0f-08W" secondAttribute="bottom" constant="20" id="cih-aZ-vdq"/>
@@ -280,6 +290,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Add Location" id="hpD-q7-rHp"/>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="A4v-b1-N3x" id="4VI-dm-fv7"/>
                         <outlet property="emptyLinkLabel" destination="A6f-k0-KAS" id="5Bp-zi-2jN"/>
                         <outlet property="emptyLocationLabel" destination="zTp-DX-eNL" id="TZr-Ke-hpc"/>
                         <outlet property="findLocationButton" destination="8EB-L3-Zld" id="7Zb-5n-QJM"/>

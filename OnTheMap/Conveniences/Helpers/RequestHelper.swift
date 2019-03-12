@@ -168,8 +168,8 @@ class RequestHelper {
         
         switch api {
         case .parse:
-            request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id") // TODO: Move to constants
-            request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key") // TODO: Move to constant
+            request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+            request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
         default: return
         }
         
@@ -189,7 +189,6 @@ extension RequestHelper {
     class func serializeResponse<T: Codable>(_ response: Any?, ofType: T.Type) throws ->  T {
         
         do {
-            
             guard let response = response else {
                 let userInfo = [NSLocalizedDescriptionKey: "Empty response"]
                 throw NSError(domain: "RequestHelper", code: -1, userInfo: userInfo)

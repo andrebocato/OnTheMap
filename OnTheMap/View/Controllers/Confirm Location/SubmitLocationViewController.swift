@@ -40,7 +40,6 @@ class SubmitLocationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // @TODO: send mapView to (latitude, longitude) received from InformationPostingViewController
         let receivedCoordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         mapView.setCenter(receivedCoordinates, animated: true)
         

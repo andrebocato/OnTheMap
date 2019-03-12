@@ -5,8 +5,6 @@
 //  Created by André Sanches Bocato on 13/02/19.
 //  Copyright © 2019 André Sanches Bocato. All rights reserved.
 //
-// @TODO: inform user if download fails
-// @TODO: show downloaded data in mapview and tableview. actually returning empty arrays
 
 import Foundation
 import UIKit

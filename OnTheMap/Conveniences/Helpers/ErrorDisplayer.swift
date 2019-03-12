@@ -11,10 +11,11 @@ import UIKit
 protocol ErrorLogger {
     func logError(_ error: Error, description: String?)
 }
+
 extension ErrorLogger {
     
     func logError(_ error: Error,
-                      description: String? = nil) {
+                  description: String? = nil) {
         
         if let description = description {
             print(description + "\nError: \(error)")

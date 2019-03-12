@@ -5,8 +5,6 @@
 //  Created by André Sanches Bocato on 13/02/19.
 //  Copyright © 2019 André Sanches Bocato. All rights reserved.
 //
-// @TODO: sort tableview properly (most recent to oldest update)
-// @TODO: create emptyView (https://medium.com/@mtssonmez/handle-empty-tableview-in-swift-4-ios-11-23635d108409)
 
 import Foundation
 import UIKit

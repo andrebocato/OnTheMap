@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class LoginViewController: UIViewController {
-        
+    
     // MARK: - IBOutlets
     
     @IBOutlet private weak var udacityLogoImageView: UIImageView!
@@ -44,7 +44,9 @@ class LoginViewController: UIViewController {
     
     @IBAction private func loginButtonDidReceiveTouchUpInside(_ sender: Any) {
         validateInputsFor(textFields: [usernameTextField, passwordTextField], withErrorLabels: [emptyUsernameLabel, emptyPasswordLabel]) { [weak self] (isValid) in
-            if isValid { self?.doLogin() }
+            if isValid {
+                self?.doLogin()
+            }
         }
     }
     
@@ -67,42 +69,40 @@ class LoginViewController: UIViewController {
     // MARK: - Helper Functions
     
     private func doLogin() {
-        configureUIForRequestInProgress(true)
+        view.configureUIForLoading(true, activityIndicatorView, loginButton)
         
         let username = usernameTextField.text ?? ""
         let password = passwordTextField.text ?? ""
         
         UdacityClient.postSessionRequest(withUsername: username, password: password, success: { (postSessionResponse) in
             guard let userID = postSessionResponse?.account?.key else { return }
+            
             UdacityClient.getUserRequest(withId: userID, success: { [weak self] (userFromResponse) in
                 CurrentSessionData.shared.user = userFromResponse
-                DispatchQueue.main.async {
-                    self?.configureUIForRequestInProgress(false)
-                    self?.performSegue(withIdentifier: "CompleteLoginSegue", sender: self)
-                }
-            }, failure: { [weak self] (optionalError) in
                 guard let self = self else { return }
-                if let error = optionalError {
-                    Alerthelper.showErrorAlert(inController: self, withMessage: "Login failed.")
-                    self.logError(error, description: "Failed to GET userId.")
+                self.view.configureUIForLoading(false, self.activityIndicatorView, self.loginButton)
+                
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "CompleteLoginSegue", sender: self)
                 }
-                self.configureUIForRequestInProgress(false)
+                }, failure: { [weak self] (optionalError) in
+                    guard let self = self else { return }
+                    
+                    if let error = optionalError {
+                        self.view.configureUIForLoading(false, self.activityIndicatorView, self.loginButton)
+                        Alerthelper.showErrorAlert(inController: self, withMessage: "Login failed.")
+                        self.logError(error, description: "Failed to GET userId.")
+                    }
             })
         }, failure: { [weak self] (optionalError) in
             guard let self = self else { return }
+            
             if let error = optionalError {
+                self.view.configureUIForLoading(false, self.activityIndicatorView, self.loginButton)
                 Alerthelper.showErrorAlert(inController: self, withMessage: "Login failed.")
                 self.logError(error, description: "Failed to POST login session.")
             }
-            self.configureUIForRequestInProgress(false)
         })
-        // end of POST session request
-    }
-    
-    private func configureUIForRequestInProgress(_ inProgress: Bool) {
-        inProgress ? activityIndicatorView.startAnimating() : activityIndicatorView.stopAnimating()
-        activityIndicatorView.isHidden = !inProgress
-        loginButton.isEnabled = inProgress
     }
     
 }

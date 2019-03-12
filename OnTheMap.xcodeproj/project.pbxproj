@@ -32,6 +32,7 @@
 		145A5833221EF275006385C1 /* GetUserIdResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145A5832221EF275006385C1 /* GetUserIdResponse.swift */; };
 		14DE9BD92214FBAD001BBC3C /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE9BD82214FBAD001BBC3C /* TabBarViewController.swift */; };
 		14DE9BE02215B2A6001BBC3C /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE9BDF2215B2A6001BBC3C /* UdacityClient.swift */; };
+		652B20322237FFDD00183186 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652B20312237FFDD00183186 /* UIViewExtensions.swift */; };
 		652B90AA22284CFF0062B6C9 /* AlertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652B90A922284CFF0062B6C9 /* AlertHelper.swift */; };
 		652B90AE2228551B0062B6C9 /* DataRefreshable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652B90AD2228551B0062B6C9 /* DataRefreshable.swift */; };
 		6547C3EF2225BCF200EECC01 /* PostStudentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6547C3EE2225BCF200EECC01 /* PostStudentResponse.swift */; };
@@ -91,6 +92,7 @@
 		145A5832221EF275006385C1 /* GetUserIdResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserIdResponse.swift; sourceTree = "<group>"; };
 		14DE9BD82214FBAD001BBC3C /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		14DE9BDF2215B2A6001BBC3C /* UdacityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
+		652B20312237FFDD00183186 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		652B90A922284CFF0062B6C9 /* AlertHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertHelper.swift; sourceTree = "<group>"; };
 		652B90AD2228551B0062B6C9 /* DataRefreshable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRefreshable.swift; sourceTree = "<group>"; };
 		6547C3EE2225BCF200EECC01 /* PostStudentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostStudentResponse.swift; sourceTree = "<group>"; };
@@ -390,8 +392,9 @@
 		E5748D9C222EE4E1007DBEAB /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				E5748D9D222EE4F3007DBEAB /* UITextFieldExtensions.swift */,
 				E5748D9F222EE55C007DBEAB /* UIViewControllerExtensions.swift */,
+				652B20312237FFDD00183186 /* UIViewExtensions.swift */,
+				E5748D9D222EE4F3007DBEAB /* UITextFieldExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -550,6 +553,7 @@
 				6550575A222474E2001267CF /* CurrentSessionData.swift in Sources */,
 				145A5815221C93F2006385C1 /* Student.swift in Sources */,
 				E5748DA2222EE731007DBEAB /* ErrorDisplayer.swift in Sources */,
+				652B20322237FFDD00183186 /* UIViewExtensions.swift in Sources */,
 				145A580A221B6DEA006385C1 /* Session.swift in Sources */,
 				1413EDAA22144DDB007D27BB /* AppDelegate.swift in Sources */,
 				1413EDE5221459A7007D27BB /* SubmitLocationViewController.swift in Sources */,

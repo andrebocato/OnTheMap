@@ -24,7 +24,6 @@ class MapViewController: UIViewController {
         loadMapData()
     }
     
-    // @TODO: Refactor, repeated code
     private func loadMapData() {
         // GET request for students
         ParseClient.getStudentsRequest(limit: 100, skip: 100, order: "-updatedAt", success: { [weak self] (getStudentsResponse) in
