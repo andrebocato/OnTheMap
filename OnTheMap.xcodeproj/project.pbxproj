@@ -38,6 +38,7 @@
 		6547C3EF2225BCF200EECC01 /* PostStudentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6547C3EE2225BCF200EECC01 /* PostStudentResponse.swift */; };
 		6550575A222474E2001267CF /* CurrentSessionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65505759222474E2001267CF /* CurrentSessionData.swift */; };
 		6550575F22248287001267CF /* PutStudentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6550575E22248287001267CF /* PutStudentResponse.swift */; };
+		65972CF3223940DA008D52AA /* StudentsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65972CF2223940DA008D52AA /* StudentsDataManager.swift */; };
 		E5748D9E222EE4F3007DBEAB /* UITextFieldExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5748D9D222EE4F3007DBEAB /* UITextFieldExtensions.swift */; };
 		E5748DA0222EE55C007DBEAB /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5748D9F222EE55C007DBEAB /* UIViewControllerExtensions.swift */; };
 		E5748DA2222EE731007DBEAB /* ErrorDisplayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5748DA1222EE731007DBEAB /* ErrorDisplayer.swift */; };
@@ -98,6 +99,7 @@
 		6547C3EE2225BCF200EECC01 /* PostStudentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostStudentResponse.swift; sourceTree = "<group>"; };
 		65505759222474E2001267CF /* CurrentSessionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentSessionData.swift; sourceTree = "<group>"; };
 		6550575E22248287001267CF /* PutStudentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PutStudentResponse.swift; sourceTree = "<group>"; };
+		65972CF2223940DA008D52AA /* StudentsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentsDataManager.swift; sourceTree = "<group>"; };
 		E5748D9D222EE4F3007DBEAB /* UITextFieldExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtensions.swift; sourceTree = "<group>"; };
 		E5748D9F222EE55C007DBEAB /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		E5748DA1222EE731007DBEAB /* ErrorDisplayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorDisplayer.swift; sourceTree = "<group>"; };
@@ -330,6 +332,7 @@
 		145A582D221EE4EB006385C1 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				65972CF122394094008D52AA /* Students Data Manager */,
 				65505758222474C9001267CF /* Current Session Data */,
 				145A57FF221B1FFD006385C1 /* APIs */,
 			);
@@ -387,6 +390,14 @@
 				65505759222474E2001267CF /* CurrentSessionData.swift */,
 			);
 			path = "Current Session Data";
+			sourceTree = "<group>";
+		};
+		65972CF122394094008D52AA /* Students Data Manager */ = {
+			isa = PBXGroup;
+			children = (
+				65972CF2223940DA008D52AA /* StudentsDataManager.swift */,
+			);
+			path = "Students Data Manager";
 			sourceTree = "<group>";
 		};
 		E5748D9C222EE4E1007DBEAB /* Extensions */ = {
@@ -550,6 +561,7 @@
 				E5748DA0222EE55C007DBEAB /* UIViewControllerExtensions.swift in Sources */,
 				145A580E221C43B6006385C1 /* Account.swift in Sources */,
 				1413EDDF22145459007D27BB /* StudentsListViewController.swift in Sources */,
+				65972CF3223940DA008D52AA /* StudentsDataManager.swift in Sources */,
 				6550575A222474E2001267CF /* CurrentSessionData.swift in Sources */,
 				145A5815221C93F2006385C1 /* Student.swift in Sources */,
 				E5748DA2222EE731007DBEAB /* ErrorDisplayer.swift in Sources */,

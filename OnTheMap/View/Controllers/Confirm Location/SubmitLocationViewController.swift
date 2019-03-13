@@ -116,7 +116,13 @@ class SubmitLocationViewController: UIViewController {
         
     }
     
-    private func searchStudent(withKey key: String, onSuccess: @escaping (_ objectID: String?) -> ()) {
+    private func searchStudent(withKey key: String,
+                               onSuccess: @escaping (_ objectID: String?) -> ()) {
+        // @TODO:
+        // check if student is already saved in CurrentSession singleton
+        // if user exists, fetch data from singleton
+        // else, GET student and store data
+        
         // GET student request
         ParseClient.getStudentRequest(withUniqueKey: currentUser.key, success: { (getStudentResponse) in
             
@@ -155,9 +161,7 @@ class SubmitLocationViewController: UIViewController {
                     self?.navigationController?.popToRootViewController(animated: true)
                 }
             })
-            
         }
-        
     }
     
 }

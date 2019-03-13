@@ -17,10 +17,9 @@ class StudentsListViewController: UIViewController {
     
     // MARK: - Properties
     
-    private var students: [Student]? {
-        didSet {
-            studentsTableView.reloadData()
-        }
+    private var downloadedStudents: [Student]? {
+        guard let students = StudentsDataManager.shared.students else { return [] }
+        return students
     }
     
     // MARK: - Life Cycle
@@ -45,13 +44,16 @@ class StudentsListViewController: UIViewController {
     private func fetchStudents() {
         
         // GET request for students
-        ParseClient.getStudentsRequest(limit: 100, skip: 100, order: "-updatedAt", success: { [weak self] (getStudentsResponse) in
+        ParseClient.getStudentsRequest(limit: 100, skip: 100, order: "-updatedAt", success: { (getStudentsResponse) in
             guard let students = getStudentsResponse?.results else { return }
-            self?.students = students
+            
+            StudentsDataManager.shared.save(studentsArray: students)
         }, failure: { [weak self] (optionalError) in
-                guard let error = optionalError else { return }
-                Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to download students data.")
-                self?.logError(error, description: "Failed to GET students.")
+                guard let self = self,
+                    let error = optionalError else { return }
+            
+            Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to download students data.")
+                self.logError(error, description: "Failed to GET students.")
         }) // end of GET students request
         
     }
@@ -69,17 +71,17 @@ extension StudentsListViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return students?.count ?? 0
+        return downloadedStudents?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "StudentCell", for: indexPath) as? StudentCell else { return UITableViewCell() }
-        cell.configureWithStudent(students?[indexPath.row])
+        cell.configureWithStudent(downloadedStudents?[indexPath.row])
         return cell
     }
  
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let student = students?[indexPath.row], let studentURL = URL(string: student.mediaURL ?? "") else { return }
+        guard let student = downloadedStudents?[indexPath.row], let studentURL = URL(string: student.mediaURL ?? "") else { return }
         UIApplication.shared.open(studentURL, options: [:], completionHandler: nil)
     }
     
@@ -89,7 +91,12 @@ extension StudentsListViewController: UITableViewDelegate, UITableViewDataSource
 extension StudentsListViewController: DataRefreshable {
     
     func refreshData() {
-        fetchStudents()
+        guard let students = downloadedStudents, !students.isEmpty else {
+            fetchStudents()
+            return
+        }
+        
+        studentsTableView.reloadData()
     }
     
 }

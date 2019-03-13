@@ -12,6 +12,13 @@ import MapKit
 
 class MapViewController: UIViewController {
 
+    // MARK: - Properties
+    
+    var downloadedStudents: [Student] {
+        guard let students = StudentsDataManager.shared.students else { return [] }
+        return students
+    }
+    
     // MARK: - IBOutlets
     
     @IBOutlet private weak var mapView: MKMapView!
@@ -27,10 +34,16 @@ class MapViewController: UIViewController {
     private func loadMapData() {
         // GET request for students
         ParseClient.getStudentsRequest(limit: 100, skip: 100, order: "-updatedAt", success: { [weak self] (getStudentsResponse) in
-            guard let students = getStudentsResponse?.results else { return }
-            self?.createStudentsAnnotations(using: students)
+            guard let self = self,
+                let students = getStudentsResponse?.results else { return }
+            
+            StudentsDataManager.shared.save(studentsArray: students)
+            self.createStudentsAnnotations(using: self.downloadedStudents)
+            
             }, failure: { [weak self] (optionalError) in
-                guard let self = self, let error = optionalError else { return }
+                guard let self = self,
+                    let error = optionalError else { return }
+                
                 Alerthelper.showErrorAlert(inController: self, withMessage: "Failed to download students data.")
                 self.logError(error, description: "Failed to GET students.")
         }) // end of GET students request
@@ -88,7 +101,12 @@ extension MapViewController: MKMapViewDelegate, DataRefreshable {
     
     func refreshData() {
         mapView.removeAnnotations(mapView.annotations)
-        loadMapData()
+        
+        guard !downloadedStudents.isEmpty else {
+            loadMapData()
+            return
+        }
+        createStudentsAnnotations(using: downloadedStudents)
     }
     
 }

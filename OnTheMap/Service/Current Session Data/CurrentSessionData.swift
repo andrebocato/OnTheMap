@@ -12,8 +12,7 @@ class CurrentSessionData {
     
     // MARK: - Intialization
     
-    private init() { }
-    
+    private init() {}
     
     // MARK: - Shared Instance
     

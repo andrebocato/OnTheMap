@@ -17,7 +17,9 @@ class TabBarViewController: UITabBarController {
         // DELETE request
         UdacityClient.deleteSesionRequest(success: { [weak self] _ in
             CurrentSessionData.shared.clearSessionData()
-            self?.selectedViewController?.dismiss(animated: true, completion: nil)
+            DispatchQueue.main.async {
+                self?.selectedViewController?.dismiss(animated: true, completion: nil)
+            }
             }, failure: { [weak self] (optionalError) in
                 guard let self = self else { return }
                 if let error = optionalError {
@@ -30,5 +32,5 @@ class TabBarViewController: UITabBarController {
     @IBAction private func refreshBarButtonDidReceiveTouchUpInside(_ sender: Any) {
         (selectedViewController as? DataRefreshable)?.refreshData()
     }
-    
+        
 }
