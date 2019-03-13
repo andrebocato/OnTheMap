@@ -44,10 +44,10 @@ class StudentsListViewController: UIViewController {
     private func fetchStudents() {
         
         // GET request for students
-        ParseClient.getStudentsRequest(limit: 100, skip: 100, order: "-updatedAt", success: { (getStudentsResponse) in
+        ParseClient.getStudentsRequest(limit: 100, skip: 100, order: "-updatedAt", success: { [weak self] (getStudentsResponse) in
             guard let students = getStudentsResponse?.results else { return }
-            
             StudentsDataManager.shared.save(studentsArray: students)
+            self?.studentsTableView.reloadData()
         }, failure: { [weak self] (optionalError) in
                 guard let self = self,
                     let error = optionalError else { return }

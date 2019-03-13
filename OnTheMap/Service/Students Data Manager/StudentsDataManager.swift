@@ -20,14 +20,12 @@ class StudentsDataManager {
     
     // MARK: - Properties
     
-    var students: [Student]?
+    private(set) var students: [Student]?
     
     // MARK: - Functions
     
     func save(studentsArray: [Student]) {
-        
-        StudentsDataManager.shared.students = studentsArray
-        
+        students = studentsArray
     }
     
 }
