@@ -43,11 +43,19 @@ class LoginViewController: UIViewController {
     // MARK: - IBActions
     
     @IBAction private func loginButtonDidReceiveTouchUpInside(_ sender: Any) {
-        validateInputsFor(textFields: [usernameTextField, passwordTextField], withErrorLabels: [emptyUsernameLabel, emptyPasswordLabel]) { [weak self] (isValid) in
-            if isValid {
-                self?.doLogin()
-            }
+        
+        if !usernameTextField.hasValidInput() {
+            emptyUsernameLabel.text  = "This field must not be empty."
         }
+        
+        if !usernameTextField.hasValidInput() {
+            emptyPasswordLabel.text  = "This field must not be empty."
+        }
+        
+        if usernameTextField.hasValidInput() && passwordTextField.hasValidInput() {
+            doLogin()
+        }
+        
     }
     
     @IBAction private func signUpButtonDidReceiveTouchUpInside(_ sender: Any) {

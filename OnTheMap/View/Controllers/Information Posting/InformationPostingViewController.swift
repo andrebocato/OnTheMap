@@ -42,22 +42,32 @@ class InformationPostingViewController: UIViewController {
     // MARK: - IBActions
     
     @IBAction private func findLocationButtonDidReceiveTouchUpInside(_ sender: Any) {
+        
         view.configureUIForLoading(true, activityIndicatorView, findLocationButton)
         
-        validateInputsFor(textFields: [locationTextField, linkTextField], withErrorLabels: [emptyLocationLabel, emptyLinkLabel]) { [weak self] (isValid) in
-            guard let self = self else { return }
+        let areTextFieldInputsValid = locationTextField.hasValidInput() && linkTextField.hasValidInput()
+        
+        if !areTextFieldInputsValid {
             
-            guard isValid else {
-                self.view.configureUIForLoading(false, self.activityIndicatorView, self.findLocationButton)
-                Alerthelper.showErrorAlert(inController: self, withMessage: "Could not find location.")
-                return
+            if !locationTextField.hasValidInput() {
+                emptyLocationLabel.text  = "This field must not be empty."
             }
             
-            loadAddress(onSuccess: { (location) in
-                self.view.configureUIForLoading(false, self.activityIndicatorView, self.findLocationButton)
-                self.performSegue(withIdentifier: "ConfirmLocationSegue", sender: location)
-            })
+            if !linkTextField.hasValidInput() {
+                emptyLinkLabel.text  = "This field must not be empty."
+            }
+            
+            view.configureUIForLoading(false, self.activityIndicatorView, self.findLocationButton)
+            Alerthelper.showErrorAlert(inController: self, withMessage: "Could not find location.")
+            
+            return
         }
+        
+        loadAddress(onSuccess: { (location) in
+            self.view.configureUIForLoading(false, self.activityIndicatorView, self.findLocationButton)
+            self.performSegue(withIdentifier: "ConfirmLocationSegue", sender: location)
+        })
+        
     }
     
     // MARK: - Life Cycle
